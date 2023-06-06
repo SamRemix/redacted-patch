@@ -35,6 +35,7 @@ onplayerspawned() {
     // HUD
     self thread timer_hud();
     self thread round_timer_hud();
+    self thread sph_hud();
     
     // MOVEMENT
     self set_movement();
