@@ -24,6 +24,7 @@ onplayerspawned() {
   level.config["round_timer"] = true;
   level.config["sph"] = false;
   level.config["health_bar"] = false;
+  level.config["zombies_remaining"] = false;
 
   // MOVEMENT
   level.config["firstroom_movement"] = false;
@@ -38,6 +39,7 @@ onplayerspawned() {
     self thread round_timer_hud();
     self thread sph_hud();
     self thread health_bar_hud();
+    self thread zombies_remaining_hud();
     
     // MOVEMENT
     self set_movement();
@@ -186,6 +188,34 @@ health_bar_hud() {
 
     health_bar updatebar(self.health / self.maxhealth);
     health_bar_text setValue(self.health);
+
+    wait .05;
+  }
+}
+
+zombies_remaining_hud() {
+  if (!level.config["zombies_remaining"]) {
+    return;
+  }
+
+  remaining = createServerFontString("big", 1.5);
+  remaining setPoint(undefined, "BOTTOM", 0, -18);
+
+  remaining.hidewheninmenu = 1;
+  remaining.label = &"Remaining: ";
+
+  remaining.color = (1, 0, 0);
+  remaining.alpha = 0;
+
+
+  while(1) {
+    remaining display(true);
+    
+    if (get_zombies_left() == 0) {
+      remaining display(false);
+    }
+
+	  remaining setValue(get_zombies_left());
 
     wait .05;
   }
