@@ -19,6 +19,9 @@ onplayerspawned() {
 
   level.config = array();
 
+  // HUD
+  level.config["timer"] = true;
+
   // MOVEMENT
   level.config["firstroom_movement"] = false;
 
@@ -27,11 +30,39 @@ onplayerspawned() {
       
     flag_wait("initial_blackscreen_passed");
     
+    // HUD
+    self thread timer_hud();
+    
     // MOVEMENT
     self set_movement();
 
     wait .05;
   }
+}
+
+display(display) {
+  self fadeOverTime(.3);
+
+  if (display) {
+    self.alpha = 1;
+  } else {
+    self.alpha = 0;
+  }
+}
+
+timer_hud() {
+  if (!level.config["timer"]) {
+    return;
+  }
+  
+  timer = createServerFontString("big", 1.8);
+  timer setPoint("TOPLEFT", "TOPLEFT", -46, -34);
+
+  timer.alpha = 0;
+
+  timer display(true);
+
+  timer setTimerUp(0);
 }
 
 set_movement() {
