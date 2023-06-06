@@ -23,6 +23,7 @@ onplayerspawned() {
   level.config["timer"] = true;
   level.config["round_timer"] = true;
   level.config["sph"] = false;
+  level.config["health_bar"] = false;
 
   // MOVEMENT
   level.config["firstroom_movement"] = false;
@@ -36,6 +37,7 @@ onplayerspawned() {
     self thread timer_hud();
     self thread round_timer_hud();
     self thread sph_hud();
+    self thread health_bar_hud();
     
     // MOVEMENT
     self set_movement();
@@ -143,6 +145,49 @@ sph_hud() {
 	  sph keep_displaying_value(second_per_horde);
 
     sph display(false);
+  }
+}
+
+health_bar_hud() {
+  if (!level.config["health_bar"]) {
+    return;
+  }
+
+  health_bar = createPrimaryProgressbar();
+  health_bar setPoint(undefined, "BOTTOM_LEFT", 10, -72);
+
+  health_bar_text = createPrimaryProgressbarText();
+  health_bar_text setPoint(undefined, "BOTTOM_LEFT", 10, -86);
+
+  health_bar.hidewheninmenu = 1;
+  health_bar.bar.hidewheninmenu = 1;
+  health_bar.barframe.hidewheninmenu = 1;
+  health_bar_text.hidewheninmenu = 1;
+
+  health_bar.alpha = 0;
+  health_bar.bar.alpha = 0;
+  health_bar.barframe.alpha = 0;
+  health_bar_text.alpha = 0;
+
+  while (1) {
+    if (isDefined(self.e_afterlife_corpse) || is_true(self.waiting_to_revive)) {
+      health_bar display(false);
+      health_bar.bar display(false);
+      health_bar.barframe display(false);
+      health_bar_text display(false);
+    }
+
+    if (health_bar.alpha == 0) {
+      health_bar display(true);
+      health_bar.bar display(true);
+      health_bar.barframe display(true);
+      health_bar_text display(true);
+    }
+
+    health_bar updatebar(self.health / self.maxhealth);
+    health_bar_text setValue(self.health);
+
+    wait .05;
   }
 }
 
