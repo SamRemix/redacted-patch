@@ -1,8 +1,6 @@
-# **Black Ops II t6zm patch**
+# **Black Ops II Redacted patch**
 
 Features enabled by default are allowed to play world record games.
-
-This patch is meant to be used during games of Highrounds, No Powers & Round Speedruns.
 
 ## **Installation**
 
@@ -28,9 +26,11 @@ Download [zm_patch.gsc](https://github.com/SamRemix/scripts/blob/master/zm_patch
 | Health bar     | Disabled |
 | Zombie Counter | Disabled |
 
-## **First room games**
+## **Categories**
 
-For playing first room games, you have to edit file like this:
+This patch is meant to be used during games of **high round**, **no power** & **speedruns**.
+
+For playing **first room** games, you have to edit file like this:
 
 ```cpp
 onplayerspawned() {
