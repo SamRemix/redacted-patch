@@ -14,14 +14,19 @@ Download [zm_patch.gsc](https://github.com/SamRemix/scripts/blob/master/zm_patch
 
 - Fixed strafe & backwards speed
 - Game / round timer
+- Display sph at round end
+- Health bar
+- Zombie Counter
 
 ### HUD
 
-| Feature     | Default  |
-| :---------- | :------- |
-| Timer       | Enabled  |
-| Round timer | Enabled  |
-| SPH         | Disabled |
+| Feature        | Default  |
+| :------------- | :------- |
+| Timer          | Enabled  |
+| Round timer    | Enabled  |
+| SPH            | Disabled |
+| Health bar     | Disabled |
+| Zombie Counter | Disabled |
 
 ## **First room games**
 
