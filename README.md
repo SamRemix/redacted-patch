@@ -1,10 +1,6 @@
 # **Black Ops II Redacted patch**
 
-Features enabled by default are allowed to play world record games.
-
 ## **Installation**
-
-### Redacted LAN
 
 Download [zm_patch.gsc](https://github.com/SamRemix/scripts/blob/master/zm_patch.gsc) and put it in `Redacted_LAN\data\scripts` folder.
 
@@ -12,19 +8,9 @@ Download [zm_patch.gsc](https://github.com/SamRemix/scripts/blob/master/zm_patch
 
 - Fixed strafe & backwards speed
 - Game / round timer
-- Display sph at round end
+- SPH
 - Health bar
 - Zombie Counter
-
-### HUD
-
-| Feature        | Default  |
-| :------------- | :------- |
-| Timer          | Enabled  |
-| Round timer    | Enabled  |
-| SPH            | Disabled |
-| Health bar     | Disabled |
-| Zombie Counter | Disabled |
 
 ## **Categories**
 
