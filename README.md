@@ -17,10 +17,11 @@ Download [zm_patch.gsc](https://github.com/SamRemix/scripts/blob/master/zm_patch
 
 ### HUD
 
-| Feature     | Default |
-| :---------- | :------ |
-| Timer       | Enabled |
-| Round timer | Enabled |
+| Feature     | Default  |
+| :---------- | :------- |
+| Timer       | Enabled  |
+| Round timer | Enabled  |
+| SPH         | Disabled |
 
 ## **First room games**
 

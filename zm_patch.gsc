@@ -22,6 +22,7 @@ onplayerspawned() {
   // HUD
   level.config["timer"] = true;
   level.config["round_timer"] = true;
+  level.config["sph"] = false;
 
   // MOVEMENT
   level.config["firstroom_movement"] = false;
@@ -67,12 +68,17 @@ timer_hud() {
   timer setTimerUp(0);
 }
 
-keep_displaying_value(value) {
+keep_displaying_value(value, context) {
   level endon("end_game");
   level endon("start_of_round");
 
   while (true) {
-    self setTimer(value - .1);
+    if (!isDefined(context)) {
+      self setValue(value);
+    }
+    else if (context == "time") {
+      self setTimer(value - .1);
+    }
 
     wait .25;
   }
@@ -101,8 +107,42 @@ round_timer_hud() {
 
 	  level.round_end = int(getTime() / 1000) - round_start;
 
-	  round_timer keep_displaying_value(level.round_end);
+	  round_timer keep_displaying_value(level.round_end, "time");
 	}
+}
+
+get_zombies_left() {
+	return get_round_enemy_array().size + level.zombie_total;
+}
+
+sph_hud() {
+  if (!level.config["sph"]) {
+    return;
+  }
+
+  level waittill("start_of_round");
+
+  sph = createServerFontString("big" , 1.4);
+  sph setPoint("TOPLEFT", "TOPLEFT", -46, 28);
+
+  sph.hidewheninmenu = 1;
+  sph.label = &"sph: ";
+
+  sph.alpha = 0;
+
+  while(1) {
+    hordes = get_zombies_left() / 24;
+
+	  level waittill("end_of_round");
+
+    sph display(true);
+
+    second_per_horde = int((level.round_end / hordes) * 100) / 100;
+
+	  sph keep_displaying_value(second_per_horde);
+
+    sph display(false);
+  }
 }
 
 set_movement() {
