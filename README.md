@@ -8,6 +8,7 @@ Download [zm_patch.gsc](https://github.com/SamRemix/scripts/blob/master/zm_patch
 
 - Fixed strafe & backwards speed
 - Game / round timer
+- Trap timer
 - SPH
 - Health bar
 - Zombie Counter
