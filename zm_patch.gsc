@@ -22,6 +22,7 @@ onplayerspawned() {
   // HUD
   level.config["timer"] = true;
   level.config["round_timer"] = true;
+  level.config["trap_timer"] = true;
   level.config["sph"] = false;
   level.config["health_bar"] = false;
   level.config["zombies_remaining"] = false;
@@ -37,6 +38,7 @@ onplayerspawned() {
     // HUD
     self thread timer_hud();
     self thread round_timer_hud();
+    self thread trap_timer_hud();
     self thread sph_hud();
     self thread health_bar_hud();
     self thread zombies_remaining_hud();
@@ -113,6 +115,33 @@ round_timer_hud() {
 	  level.round_end = int(getTime() / 1000) - round_start;
 
 	  round_timer keep_displaying_value(level.round_end, "time");
+	}
+}
+
+trap_timer_hud() {
+	if(!level.config["trap_timer"] || level.script != "zm_prison") {
+		return;
+  }
+
+  trap_timer = createServerFontString("big", 1.4);
+  trap_timer setPoint("TOPLEFT", "TOPLEFT", -46, 6);
+
+	trap_timer.color = (1, .3, .3);
+	trap_timer.alpha = 0;
+
+	while(1) {
+		level waittill("trap_activated");
+
+		if(!level.trap_activated) {
+			wait .5;
+
+      trap_timer display(true);
+			trap_timer setTimer(50);
+
+			wait 50;
+
+      trap_timer display(false);
+		}
 	}
 }
 
