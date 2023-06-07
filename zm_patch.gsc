@@ -22,7 +22,7 @@ onplayerspawned() {
   // HUD
   level.config["timer"] = true;
   level.config["round_timer"] = true;
-  level.config["trap_timer"] = true;
+  level.config["trap_timer"] = false;
   level.config["sph"] = false;
   level.config["health_bar"] = false;
   level.config["zombies_remaining"] = false;
