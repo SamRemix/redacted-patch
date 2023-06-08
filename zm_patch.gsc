@@ -269,14 +269,7 @@ velocity_meter_hud() {
 	velocity_meter.hidewheninmenu = 1;
 
   while (1) {
-	  velocity = int(length(self getvelocity()));
-
-    velocity_meter display(true);
-
-    if (!velocity) {
-      velocity_meter display(false);
-    }
-    
+	  velocity = int(length(self getvelocity()));    
 
     velocity_meter setValue(velocity);
 
