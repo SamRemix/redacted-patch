@@ -15,4 +15,3 @@
 - Box hit tracker for survival map
   - Raygun average
 - Buildables counter
-- Velocity meter

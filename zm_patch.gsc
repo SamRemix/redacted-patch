@@ -26,6 +26,7 @@ onplayerspawned() {
   level.config["sph"] = false;
   level.config["health_bar"] = false;
   level.config["zombies_remaining"] = false;
+  level.config["velocity_meter"] = true;
 
   // MOVEMENT
   level.config["firstroom_movement"] = false;
@@ -42,6 +43,7 @@ onplayerspawned() {
     self thread sph_hud();
     self thread health_bar_hud();
     self thread zombies_remaining_hud();
+    self thread velocity_meter_hud();
     
     // MOVEMENT
     self set_movement();
@@ -245,6 +247,32 @@ zombies_remaining_hud() {
     }
 
 	  remaining setValue(get_zombies_left());
+
+    wait .05;
+  }
+}
+
+velocity_meter_hud() {
+  if (!level.config["velocity_meter"]) {
+    return;
+  }
+
+  velocity_meter = createServerFontString("big", 1.5);
+  velocity_meter setPoint(undefined, "TOP", 0, -18);
+
+	velocity_meter.hidewheninmenu = 1;
+
+  while (1) {
+	  velocity = int(length(self getvelocity()));
+
+    velocity_meter display(true);
+
+    if (!velocity) {
+      velocity_meter display(false);
+    }
+    
+
+    velocity_meter setValue(velocity);
 
     wait .05;
   }
