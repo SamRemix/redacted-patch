@@ -6,14 +6,23 @@ Download [zm_patch.gsc](https://github.com/SamRemix/scripts/blob/master/zm_patch
 
 ## **Features**
 
+Some features are disabled by default because they are not allowed for playing world record games.
+
+### General
+
 - Fixed strafe & backwards speed
-- Game / round timer
+
+### Hud
+
+- Timer
+- Round timer
 - Trap timer
 - SPH
 - Health bar
 - Zombie Counter
 - Velocity meter
 - Box hits tracker
+
 
 ## **Categories**
 
