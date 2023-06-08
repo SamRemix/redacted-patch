@@ -13,6 +13,7 @@ Download [zm_patch.gsc](https://github.com/SamRemix/scripts/blob/master/zm_patch
 - Health bar
 - Zombie Counter
 - Velocity meter
+- Box hits tracker
 
 ## **Categories**
 

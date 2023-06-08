@@ -12,6 +12,6 @@
 
 ## **Hud**
 
-- Box hit tracker for survival map
+- Box hit tracker for survival map only
   - Raygun average
 - Buildables counter

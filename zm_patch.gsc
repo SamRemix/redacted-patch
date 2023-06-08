@@ -28,6 +28,9 @@ onplayerspawned() {
   level.config["zombies_remaining"] = false;
   level.config["velocity_meter"] = true;
 
+  // BOX
+  level.config["box_hits_tracker"] = true;
+
   // MOVEMENT
   level.config["firstroom_movement"] = false;
 
@@ -44,6 +47,9 @@ onplayerspawned() {
     self thread health_bar_hud();
     self thread zombies_remaining_hud();
     self thread velocity_meter_hud();
+
+    // BOX
+    level thread box_hits_tracker();
     
     // MOVEMENT
     self set_movement();
@@ -273,6 +279,43 @@ velocity_meter_hud() {
     
 
     velocity_meter setValue(velocity);
+
+    wait .05;
+  }
+}
+
+get_box_hits() {
+	while (1) {
+    while (self.zbarrier getzbarrierpiecestate(2) != "opening") {
+      wait .05;
+    }
+
+		level.hits++;
+
+    while (self.zbarrier getzbarrierpiecestate(2) == "opening") {
+      wait .05;
+    }
+	}
+}
+
+box_hits_tracker() {
+  if (!level.config["box_hits_tracker"]) {
+    return;
+  }
+
+  box_hits = createServerFontString("big", 1.5);
+  box_hits setPoint("TOPRIGHT", "TOPRIGHT", 58, -10);
+
+  box_hits.label = &"Box hits: ";
+
+	level.hits = 0;
+
+	foreach(chest in level.chests) {
+		chest thread get_box_hits();
+  }
+
+  while (1) {
+    box_hits setValue(level.hits);
 
     wait .05;
   }
