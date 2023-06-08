@@ -26,10 +26,10 @@ onplayerspawned() {
   level.config["sph"] = false;
   level.config["health_bar"] = false;
   level.config["zombies_remaining"] = false;
-  level.config["velocity_meter"] = true;
+  level.config["velocity_meter"] = false;
 
   // BOX
-  level.config["box_hits_tracker"] = true;
+  level.config["box_hits_tracker"] = false;
 
   // MOVEMENT
   level.config["firstroom_movement"] = false;
@@ -67,6 +67,12 @@ display(display) {
     self.alpha = 0;
   }
 }
+
+/*
+
+  HUD
+
+*/
 
 timer_hud() {
   if (!level.config["timer"]) {
@@ -269,13 +275,19 @@ velocity_meter_hud() {
 	velocity_meter.hidewheninmenu = 1;
 
   while (1) {
-	  velocity = int(length(self getvelocity()));    
-
+	  velocity = int(length(self getvelocity()));
+    
     velocity_meter setValue(velocity);
 
     wait .05;
   }
 }
+
+/*
+
+  BOX
+
+*/
 
 get_box_hits() {
 	while (1) {
@@ -321,6 +333,12 @@ box_hits_tracker() {
     wait .05;
   }
 }
+
+/*
+
+  MOVEMENT
+
+*/
 
 set_movement() {
   if (!level.config["firstroom_movement"]) {
