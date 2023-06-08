@@ -291,8 +291,16 @@ get_box_hits() {
 	}
 }
 
+is_survival_map() {
+  if (level.scr_zm_ui_gametype_group == "zsurvival" || level.script == "zm_nuked") {
+    return true;
+  }
+
+  return false;
+}
+
 box_hits_tracker() {
-  if (!level.config["box_hits_tracker"]) {
+  if (!level.config["box_hits_tracker"] || !is_survival_map()) {
     return;
   }
 

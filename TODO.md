@@ -12,6 +12,11 @@
 
 ## **Hud**
 
-- Box hit tracker for survival map only
-  - Raygun average
+- Raygun average for box hits tracker
 - Buildables counter
+
+## **Bug**
+
+### **Nuketown**
+
+- Box hits tracker is diplay but doesn't work
