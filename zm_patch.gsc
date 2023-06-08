@@ -63,9 +63,10 @@ display(display) {
 
   if (display) {
     self.alpha = 1;
-  } else {
-    self.alpha = 0;
+    return;
   }
+  
+  self.alpha = 0;
 }
 
 /*
@@ -97,7 +98,8 @@ keep_displaying_value(value, context) {
     if (!isDefined(context)) {
       self setValue(value);
     }
-    else if (context == "time") {
+    
+    if (context == "time") {
       self setTimer(value - .1);
     }
 
