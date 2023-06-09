@@ -4,7 +4,6 @@
 
 - Be able to toggle hud elements
 - Fix traps & Jetgun
-- Set bank points
 - Set fridge weapon
 - Give perma perks
 - Set start box location
