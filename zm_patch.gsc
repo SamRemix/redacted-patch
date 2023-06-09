@@ -58,7 +58,7 @@ onplayerspawned() {
   }
 }
 
-display(display) {
+set_visibility(display) {
   self fadeOverTime(.3);
 
   if (display) {
@@ -85,24 +85,17 @@ timer_hud() {
 
   timer.alpha = 0;
 
-  timer display(true);
+  timer set_visibility(true);
 
   timer setTimerUp(0);
 }
 
-keep_displaying_value(value, context) {
-  level endon("end_game");
+keep_displaying_round_time(time) {
   level endon("start_of_round");
 
   while (true) {
-    if (!isDefined(context)) {
-      self setValue(value);
-    }
+    self setTimer(time - .1);
     
-    if (context == "time") {
-      self setTimer(value - .1);
-    }
-
     wait .25;
   }
 }
@@ -120,7 +113,7 @@ round_timer_hud() {
   round_timer.color = (1, .3, .3);
   round_timer.alpha = 0;
 
-  round_timer display(true);
+  round_timer set_visibility(true);
   
   while (1) {
 	  round_start = int(getTime() / 1000);
@@ -130,7 +123,7 @@ round_timer_hud() {
 
 	  level.round_end = int(getTime() / 1000) - round_start;
 
-	  round_timer keep_displaying_value(level.round_end, "time");
+	  round_timer keep_displaying_round_time(level.round_end);
 	}
 }
 
@@ -151,18 +144,28 @@ trap_timer_hud() {
 		if(!level.trap_activated) {
 			wait .5;
 
-      trap_timer display(true);
+      trap_timer set_visibility(true);
 			trap_timer setTimer(50);
 
 			wait 50;
 
-      trap_timer display(false);
+      trap_timer set_visibility(false);
 		}
 	}
 }
 
 get_zombies_left() {
 	return get_round_enemy_array().size + level.zombie_total;
+}
+
+display_sph(sph) {
+  level endon("start_of_round");
+
+  while (true) {
+    self setValue(sph);
+
+    wait .25;
+  }
 }
 
 sph_hud() {
@@ -172,7 +175,7 @@ sph_hud() {
 
   level waittill("start_of_round");
 
-  sph = createServerFontString("big" , 1.4);
+  sph = createServerFontString("big", 1.4);
   sph setPoint("TOPLEFT", "TOPLEFT", -46, 28);
 
   sph.hidewheninmenu = 1;
@@ -185,13 +188,13 @@ sph_hud() {
 
 	  level waittill("end_of_round");
 
-    sph display(true);
+    sph set_visibility(true);
 
     second_per_horde = int((level.round_end / hordes) * 100) / 100;
 
-	  sph keep_displaying_value(second_per_horde);
+	  sph display_sph(second_per_horde);
 
-    sph display(false);
+    sph set_visibility(false);
   }
 }
 
@@ -218,17 +221,17 @@ health_bar_hud() {
 
   while (1) {
     if (isDefined(self.e_afterlife_corpse) || is_true(self.waiting_to_revive)) {
-      health_bar display(false);
-      health_bar.bar display(false);
-      health_bar.barframe display(false);
-      health_bar_text display(false);
+      health_bar set_visibility(false);
+      health_bar.bar set_visibility(false);
+      health_bar.barframe set_visibility(false);
+      health_bar_text set_visibility(false);
     }
 
     if (health_bar.alpha == 0) {
-      health_bar display(true);
-      health_bar.bar display(true);
-      health_bar.barframe display(true);
-      health_bar_text display(true);
+      health_bar set_visibility(true);
+      health_bar.bar set_visibility(true);
+      health_bar.barframe set_visibility(true);
+      health_bar_text set_visibility(true);
     }
 
     health_bar updatebar(self.health / self.maxhealth);
@@ -254,10 +257,10 @@ zombies_remaining_hud() {
 
 
   while(1) {
-    remaining display(true);
+    remaining set_visibility(true);
     
     if (get_zombies_left() == 0) {
-      remaining display(false);
+      remaining set_visibility(false);
     }
 
 	  remaining setValue(get_zombies_left());
