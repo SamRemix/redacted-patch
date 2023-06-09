@@ -27,8 +27,6 @@ onplayerspawned() {
   level.config["health_bar"] = false;
   level.config["zombies_remaining"] = false;
   level.config["velocity_meter"] = false;
-
-  // BOX
   level.config["box_hits_tracker"] = false;
 
   // MOVEMENT
@@ -47,11 +45,9 @@ onplayerspawned() {
     self thread health_bar_hud();
     self thread zombies_remaining_hud();
     self thread velocity_meter_hud();
-
-    // BOX
     level thread box_hits_tracker();
 
-    // BANK
+    // PERSISTENT UPGRADES
     self thread fill_bank();
     
     // MOVEMENT
@@ -291,12 +287,6 @@ velocity_meter_hud() {
   }
 }
 
-/*
-
-  BOX
-
-*/
-
 get_box_hits() {
 	while (1) {
     while (self.zbarrier getzbarrierpiecestate(2) != "opening") {
@@ -344,12 +334,24 @@ box_hits_tracker() {
 
 /*
 
-  BANK
+  PERSISTENT UPGRADES
 
 */
 
+is_victis_map() {
+  victis_maps = array("zm_transit", "zm_highrise", "zm_buried");
+
+  foreach(map in victis_maps) {
+    if (level.script == map) {
+      return true;
+    }
+  }
+  
+	return false;
+}
+
 fill_bank() {
-  if (isDefined(level.pers_upgrade_boards)) {
+  if (is_victis_map()) {
     self.account_value = level.bank_account_max;
   }
 }
