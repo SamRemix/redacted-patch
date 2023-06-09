@@ -50,6 +50,9 @@ onplayerspawned() {
 
     // BOX
     level thread box_hits_tracker();
+
+    // BANK
+    self thread fill_bank();
     
     // MOVEMENT
     self set_movement();
@@ -336,6 +339,18 @@ box_hits_tracker() {
     box_hits setValue(level.hits);
 
     wait .05;
+  }
+}
+
+/*
+
+  BANK
+
+*/
+
+fill_bank() {
+  if (isDefined(level.pers_upgrade_boards)) {
+    self.account_value = level.bank_account_max;
   }
 }
 
