@@ -134,7 +134,7 @@ timer_hud() {
 keep_displaying_round_time(time) {
   level endon("start_of_round");
 
-  while (true) {
+  while (1) {
     self setTimer(time - .1);
     
     wait .25;
@@ -179,7 +179,7 @@ trap_timer_hud() {
 	trap_timer.color = (1, .3, .3);
 	trap_timer.alpha = 0;
 
-	while(1) {
+	while (1) {
 		level waittill("trap_activated");
 
 		if(!level.trap_activated) {
@@ -198,7 +198,7 @@ trap_timer_hud() {
 display_sph(sph) {
   level endon("start_of_round");
 
-  while (true) {
+  while (1) {
     self setValue(sph);
 
     wait .25;
@@ -220,7 +220,7 @@ sph_hud() {
 
   sph.alpha = 0;
 
-  while(1) {
+  while (1) {
     hordes = get_zombies_left() / 24;
 
 	  level waittill("end_of_round");
@@ -293,7 +293,7 @@ zombies_remaining_hud() {
   remaining.alpha = 0;
 
 
-  while(1) {
+  while (1) {
     remaining set_visibility(true);
     
     if (get_zombies_left() == 0) {
