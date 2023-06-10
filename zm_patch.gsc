@@ -57,15 +57,45 @@ onplayerspawned() {
   }
 }
 
-set_visibility(display) {
+/*
+
+  UTILITY FUNCTIONS
+
+*/
+
+set_visibility(visible) {
   self fadeOverTime(.3);
 
-  if (display) {
+  if (visible) {
     self.alpha = 1;
     return;
   }
   
   self.alpha = 0;
+}
+
+is_survival_map() {
+  if (level.scr_zm_ui_gametype_group == "zsurvival" || level.script == "zm_nuked") {
+    return true;
+  }
+
+  return false;
+}
+
+is_victis_map() {
+  victis_maps = array("zm_transit", "zm_highrise", "zm_buried");
+
+  foreach(map in victis_maps) {
+    if (level.script == map) {
+      return true;
+    }
+  }
+  
+	return false;
+}
+
+get_zombies_left() {
+	return get_round_enemy_array().size + level.zombie_total;
 }
 
 /*
@@ -151,10 +181,6 @@ trap_timer_hud() {
       trap_timer set_visibility(false);
 		}
 	}
-}
-
-get_zombies_left() {
-	return get_round_enemy_array().size + level.zombie_total;
 }
 
 display_sph(sph) {
@@ -301,14 +327,6 @@ get_box_hits() {
 	}
 }
 
-is_survival_map() {
-  if (level.scr_zm_ui_gametype_group == "zsurvival" || level.script == "zm_nuked") {
-    return true;
-  }
-
-  return false;
-}
-
 box_hits_tracker() {
   if (!level.config["box_hits_tracker"] || !is_survival_map()) {
     return;
@@ -337,18 +355,6 @@ box_hits_tracker() {
   PERSISTENT UPGRADES
 
 */
-
-is_victis_map() {
-  victis_maps = array("zm_transit", "zm_highrise", "zm_buried");
-
-  foreach(map in victis_maps) {
-    if (level.script == map) {
-      return true;
-    }
-  }
-  
-	return false;
-}
 
 fill_bank() {
   if (is_victis_map()) {
