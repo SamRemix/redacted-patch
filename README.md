@@ -11,6 +11,7 @@ Some features are disabled by default because they are not allowed for playing w
 ### General
 
 - Fixed strafe & backwards speed
+- Fixed trap & Jetgun on maps that need it
 - Full bank
 
 ### Hud

@@ -50,6 +50,10 @@ onplayerspawned() {
     // PERSISTENT UPGRADES
     self thread fill_bank();
     
+    if (is_victis_map() || is_mob_of_the_dead()) {
+      level.round_start_custom_func = ::fix_zombies_health;
+    }
+    
     // MOVEMENT
     self set_movement();
 
@@ -91,6 +95,14 @@ is_victis_map() {
     }
   }
   
+	return false;
+}
+
+is_mob_of_the_dead() {
+	if (level.script == "zm_prison") {
+		return true;
+  }
+
 	return false;
 }
 
@@ -359,6 +371,22 @@ box_hits_tracker() {
 fill_bank() {
   if (is_victis_map()) {
     self.account_value = level.bank_account_max;
+  }
+}
+
+fix_zombies_health() {
+  round_155 = 1044606723;
+  
+  if (level.zombie_health <= round_155) {
+    return;
+  }
+
+  level.zombie_health = round_155;
+
+  foreach (zombie in get_round_enemy_array()) {
+    if (zombie.health > round_155) {
+      zombie.heath = round_155;
+    }
   }
 }
 
