@@ -32,6 +32,9 @@ onplayerspawned() {
   // MOVEMENT
   level.config["firstroom_movement"] = false;
 
+  // FIRST BOX
+  level thread set_box_location();
+
   for(;;) {
 	  self waittill("spawned_player");
       
@@ -360,6 +363,48 @@ box_hits_tracker_hud() {
 
     wait .05;
   }
+}
+
+/*
+
+  FIRST BOX
+
+*/
+
+set_box_location() {
+	switch(level.scr_zm_map_start_location) {
+		case "town":
+			start_box_location = "town_chest_2";
+			break;
+
+		case "prison":
+			start_box_location = "cafe_chest";
+			break;
+
+		case "tomb":
+			start_box_location = "bunker_tank_chest";
+			break;
+
+		default:
+			break;
+	}
+    
+	for(i = 0; i < level.chests.size; i++) {
+    if(level.chests[i].script_noteworthy == start_box_location) {
+    	good_chest_index = i;
+		} else if(level.chests[i].hidden == 0) {
+    	bad_chest_index = i;
+		}     	
+	}
+
+	if(isdefined(bad_chest_index) && (bad_chest_index < good_chest_index)) {
+		level.chests[bad_chest_index] hide_chest();
+		level.chests[bad_chest_index].hidden = 1;
+
+		level.chests[good_chest_index].hidden = 0;
+		level.chests[good_chest_index] show_chest();
+		level.chest_index = good_chest_index;
+	}	
 }
 
 /*
