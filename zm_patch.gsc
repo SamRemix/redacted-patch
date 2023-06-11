@@ -81,16 +81,15 @@ onplayerspawned() {
 
 init_dvar(dvar) {
 	if (level.config[dvar]) {
-		setDvar(dvar, "1");
+		setDvar(dvar, 1);
 	} else {
-		setDvar(dvar, "0");
+		setDvar(dvar, 0);
 	}
 }
 
 hud_alpha_controller() {
 	while (1) {
-		// TIMER - ROUND TIMER
-		if (getDvar("timer") == "0") {
+		if (!getDvarInt("timer")) {
       if (isDefined(level.timer)) {
 				level.timer.alpha = 0;
 			}
@@ -100,7 +99,7 @@ hud_alpha_controller() {
 			}
 		}
 		
-		if (getDvar("timer") == "1") {
+		if (getDvarInt("timer") == 1) {
       if (isDefined(level.timer)) {
 				level.timer.alpha = 1;
 			}
