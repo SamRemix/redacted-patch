@@ -29,9 +29,9 @@ Some features are disabled by default because they are not allowed for playing w
 
 ### Dvars
 
-| Element             | Dvar              | Default |
-| :------------------ | :---------------- | :------ |
-| Timer + Round timer | `timer` - *`0 1`* | Enabled |
+| Element             | Dvar            | Default |
+| :------------------ | :-------------- | :------ |
+| Timer + Round timer | `timer` + `0 1` | Enabled |
 
 ## **Notes**
 
