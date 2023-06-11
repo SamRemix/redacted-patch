@@ -27,6 +27,12 @@ Some features are disabled by default because they are not allowed for playing w
 - Velocity meter
 - Box hits tracker
 
+### Dvars
+
+| Element             | Dvar              | Default |
+| :------------------ | :---------------- | :------ |
+| Timer + Round timer | `timer` - *`0 1`* | Enabled |
+
 ## **Notes**
 
 ### **Categories**

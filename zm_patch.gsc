@@ -40,6 +40,10 @@ onplayerspawned() {
   level thread start_box_location(); // enabled by default
   level thread first_box_weapons();
 
+	thread set_dvars();
+
+	level thread hud_alpha_controller();
+
   for(;;) {
 	  self waittill("spawned_player");
       
@@ -67,6 +71,51 @@ onplayerspawned() {
 
     wait .05;
   }
+}
+
+/*
+
+  DVARS
+
+*/
+
+init_dvar(dvar) {
+	if (level.config[dvar]) {
+		setDvar(dvar, "1");
+	} else {
+		setDvar(dvar, "0");
+	}
+}
+
+hud_alpha_controller() {
+	while (1) {
+		// TIMER - ROUND TIMER
+		if (getDvar("timer") == "0") {
+      if (isDefined(level.timer)) {
+				level.timer.alpha = 0;
+			}
+
+      if (isDefined(level.round_timer)) {
+				level.round_timer.alpha = 0;
+			}
+		}
+		
+		if (getDvar("timer") == "1") {
+      if (isDefined(level.timer)) {
+				level.timer.alpha = 1;
+			}
+
+      if (isDefined(level.round_timer)) {
+				level.round_timer.alpha = 1;
+			}
+		}
+
+		wait .05;
+	}
+}
+
+set_dvars() {
+	init_dvar("timer");
 }
 
 /*
@@ -542,4 +591,5 @@ set_movement() {
   }
 
   setdvar("player_sprintStrafeSpeedScale", 1);
+  setdvar("g_speed", 190);
 }

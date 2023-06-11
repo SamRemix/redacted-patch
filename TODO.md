@@ -2,7 +2,6 @@
 
 ## **General**
 
-- Be able to toggle hud elements
 - Set fridge weapon
 - Give perma perks
 
@@ -13,6 +12,10 @@
 - Buildables counter
 
 ## **Fix**
+
+### dvars
+
+- if the feature is disabled by default, the dvar cannot be switched
 
 ### Box hits tracker
 
