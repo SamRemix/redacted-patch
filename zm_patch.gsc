@@ -29,11 +29,16 @@ onplayerspawned() {
   level.config["velocity_meter"] = false;
   level.config["box_hits_tracker"] = false;
 
+  // FIRST BOX
+  level.config["first_box"] = true;
+  level.config["revert_round"] = 20;
+
   // MOVEMENT
   level.config["firstroom_movement"] = false;
 
   // FIRST BOX
-  level thread start_box_location();
+  level thread start_box_location(); // enabled by default
+  level thread first_box_weapons();
 
   for(;;) {
 	  self waittill("spawned_player");
@@ -405,6 +410,90 @@ start_box_location() {
 		level.chests[good_chest_index] show_chest();
 		level.chest_index = good_chest_index;
 	}	
+}
+
+first_box_weapons() {
+  if (!level.config["first_box"]) {
+    return;
+  }
+
+	switch(level.script) {
+		case "zm_transit":
+		case "zm_nuked":
+			forced_box_guns = array("raygun_mark2_zm", "cymbal_monkey_zm");
+			break;
+
+		case "zm_highrise":
+			forced_box_guns = array("cymbal_monkey_zm");
+			break;
+
+		case "zm_prison":
+			forced_box_guns = array("galil_zm", "raygun_mark2_zm", "blundergat_zm");
+			break;
+
+		case "zm_buried":
+			forced_box_guns = array("raygun_mark2_zm", "cymbal_monkey_zm", "slowgun_zm");
+			break;
+
+		case "zm_tomb":
+			forced_box_guns = array("raygun_mark2_zm", "cymbal_monkey_zm", "m32_zm");
+			break;
+			
+		default:
+			break;
+	}
+
+	foreach(weapon in level.zombie_weapons) {
+		weapon.is_in_box = 0;
+	}
+
+	box_hits = -1;
+
+	while((box_hits < forced_box_guns.size) && (level.round_number < level.config["revert_round"] + 1)) {
+		if(box_hits < level.chest_accessed) {
+			if(level.chest_accessed != forced_box_guns.size) {
+				gun = forced_box_guns[box_hits + 1];
+				level.zombie_weapons[gun].is_in_box = 1;
+			}
+
+			box_hits++;		
+		}
+
+		wait 2;
+	}
+
+	level.special_weapon_magicbox_check = ::box_weapon_check;
+
+	keys = getarraykeys(level.zombie_include_weapons);
+
+	foreach(weapon in keys) {
+		if(level.zombie_include_weapons[weapon] == 1) {
+			level.zombie_weapons[weapon].is_in_box = 1;
+		}
+	}
+}
+
+box_weapon_check(weapon) {
+	if (self has_weapon_or_upgrade(weapon)) {
+		return 0;
+	}
+
+	// if (!limited_weapon_below_quota(weapon_key, self, getentarray("specialty_weapupgrade", "script_noteworthy")))
+	// 	return "";
+
+	switch (weapon) {
+		case "ray_gun_zm":
+			if (self has_weapon_or_upgrade("raygun_mark2_zm")) {
+				return 0;
+			}
+
+		case "raygun_mark2_zm":
+			if (self has_weapon_or_upgrade("ray_gun_zm")) {
+				return 0;
+			}
+	}
+	
+	return 1;
 }
 
 /*

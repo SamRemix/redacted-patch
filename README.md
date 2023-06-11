@@ -14,6 +14,7 @@ Some features are disabled by default because they are not allowed for playing w
 - Fixed trap & Jetgun
 - Full bank
 - Start box location
+- First box weapons
 
 ### Hud
 
