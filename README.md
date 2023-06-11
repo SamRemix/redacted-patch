@@ -27,7 +27,9 @@ Some features are disabled by default because they are not allowed for playing w
 - Velocity meter
 - Box hits tracker
 
-## **Categories**
+## **Notes**
+
+### **Categories**
 
 This patch is meant to be used during games of **high round**, **no power** & **speedruns**.
 
@@ -37,7 +39,6 @@ For playing **first room** games, you have to edit file like this:
 onplayerspawned() {
   ...
 
-  // MOVEMENT
   level.config["firstroom_movement"] = true;
 
   ...
@@ -45,3 +46,25 @@ onplayerspawned() {
 ```
 
 It will set the strafe speed to 80% and the backwards speed to 70%.
+
+### **First box**
+
+| Map             | Weapons                                   |
+| :-------------- | :---------------------------------------- |
+| Survival maps   | Raygun mark II, Monkey bombs              |
+| Die rise        | Monkey bombs                              |
+| Mob of the dead | Raygun mark II, Blundergat                |
+| Buried          | Raygun mark II, Monkey bombs, Paralyzer   |
+| Origins         | Raygun mark II, Monkey bombs, War machine |
+
+By default, first box will break after round 20, you can change it by editing this line:
+
+```cpp
+onplayerspawned() {
+  ...
+
+  level.config["revert_round"] = 20;
+
+  ...
+}
+```
