@@ -30,7 +30,7 @@ onplayerspawned() {
   level.config["box_hits_tracker"] = false;
 
   // FIRST BOX
-  level.config["first_box"] = true;
+  level.config["first_box"] = false;
   level.config["revert_round"] = 20;
 
   // MOVEMENT
@@ -428,7 +428,7 @@ first_box_weapons() {
 			break;
 
 		case "zm_prison":
-			forced_box_guns = array("galil_zm", "raygun_mark2_zm", "blundergat_zm");
+			forced_box_guns = array("raygun_mark2_zm", "blundergat_zm");
 			break;
 
 		case "zm_buried":
