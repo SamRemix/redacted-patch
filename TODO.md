@@ -12,8 +12,12 @@
 - Raygun average for box hits tracker
 - Buildables counter
 
-## **Bug**
+## **Fix**
 
-### **Nuketown**
+### First box
 
-- Box hits tracker is diplay but doesn't work
+- sometimes first weapon is not the expected weapon
+
+### Box hits tracker
+
+- is diplay on Nuketown but doesn't work
