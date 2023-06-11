@@ -5,8 +5,7 @@
 - Be able to toggle hud elements
 - Set fridge weapon
 - Give perma perks
-- Set start box location
-- Set first box weapons (disabled by default)
+- Set first box weapons
 
 ## **Hud**
 

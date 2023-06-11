@@ -13,6 +13,7 @@ Some features are disabled by default because they are not allowed for playing w
 - Fixed strafe & backwards speed
 - Fixed trap & Jetgun
 - Full bank
+- Start box location
 
 ### Hud
 

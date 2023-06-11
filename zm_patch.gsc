@@ -33,7 +33,7 @@ onplayerspawned() {
   level.config["firstroom_movement"] = false;
 
   // FIRST BOX
-  level thread set_box_location();
+  level thread start_box_location();
 
   for(;;) {
 	  self waittill("spawned_player");
@@ -328,7 +328,7 @@ velocity_meter_hud() {
   }
 }
 
-get_box_hits() {
+get_box_hit() {
 	while (1) {
     while (self.zbarrier getzbarrierpiecestate(2) != "opening") {
       wait .05;
@@ -355,7 +355,7 @@ box_hits_tracker_hud() {
 	level.hits = 0;
 
 	foreach(chest in level.chests) {
-		chest thread get_box_hits();
+		chest thread get_box_hit();
   }
 
   while (1) {
@@ -371,7 +371,7 @@ box_hits_tracker_hud() {
 
 */
 
-set_box_location() {
+start_box_location() {
 	switch(level.scr_zm_map_start_location) {
 		case "town":
 			start_box_location = "town_chest_2";
