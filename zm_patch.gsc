@@ -443,6 +443,8 @@ first_box_weapons() {
 			break;
 	}
 
+	level.special_weapon_magicbox_check = undefined;
+
 	foreach(weapon in level.zombie_weapons) {
 		weapon.is_in_box = 0;
 	}
