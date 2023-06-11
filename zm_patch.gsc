@@ -45,7 +45,7 @@ onplayerspawned() {
     self thread health_bar_hud();
     self thread zombies_remaining_hud();
     self thread velocity_meter_hud();
-    level thread box_hits_tracker();
+    self thread box_hits_tracker_hud();
 
     // PERSISTENT UPGRADES
     self thread fill_bank();
@@ -339,7 +339,7 @@ get_box_hits() {
 	}
 }
 
-box_hits_tracker() {
+box_hits_tracker_hud() {
   if (!level.config["box_hits_tracker"] || !is_survival_map()) {
     return;
   }

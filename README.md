@@ -11,7 +11,7 @@ Some features are disabled by default because they are not allowed for playing w
 ### General
 
 - Fixed strafe & backwards speed
-- Fixed trap & Jetgun on maps that need it
+- Fixed trap & Jetgun
 - Full bank
 
 ### Hud
@@ -24,7 +24,6 @@ Some features are disabled by default because they are not allowed for playing w
 - Zombie Counter
 - Velocity meter
 - Box hits tracker
-
 
 ## **Categories**
 
