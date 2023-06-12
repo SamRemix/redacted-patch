@@ -12,7 +12,7 @@ Some features are disabled by default because they are not allowed for playing w
 
 - Fixed strafe & backwards speed
 - Fixed trap & Jetgun *(is enabled on Victis maps & Mob of the Dead only)*
-- Full bank
+- Full bank *(is enabled on Victis maps only)*
 - Start box location
 - First box weapons
 
@@ -29,11 +29,11 @@ Some features are disabled by default because they are not allowed for playing w
 
 ### Dvars
 
-| Element             | Dvar               | Default  |
-| :------------------ | :----------------- | :------- |
-| Timer + Round timer | `timers` + `0 1`   | Enabled  |
-| Velocity meter      | `velocity` + `0 1` | Disabled |
-| Box hits tracker    | `box_hits` + `0 1` | Disabled |
+| Element             | Dvar                | Default  |
+| :------------------ | :------------------ | :------- |
+| Timer + Round timer | `timers` + `0 /  1` | Enabled  |
+| Velocity meter      | `velocity` + `0/1`  | Disabled |
+| Box hits tracker    | `box_hits` + `0 1`  | Disabled |
 
 ## **Notes**
 
