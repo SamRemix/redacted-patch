@@ -31,8 +31,8 @@ Some features are disabled by default because they are not allowed for playing w
 
 | Element             | Dvar               | Default  |
 | :------------------ | :----------------- | :------- |
-| Timer + Round timer | `timers` + `0 / 1` | Enabled  |
-| Velocity meter      | `velocity` + `0/1` | Disabled |
+| Timer + Round timer | `timers` + `0 1`   | Enabled  |
+| Velocity meter      | `velocity` + `0 1` | Disabled |
 | Box hits tracker    | `box_hits` + `0 1` | Disabled |
 
 ## **Notes**
@@ -54,6 +54,14 @@ onplayerspawned() {
 ```
 
 It will set the strafe speed to 80% and the backwards speed to 70%.
+
+### **Start box location**
+
+| Map             | Box location        |             |
+| :-------------- | :------------------ | :---------- |
+| Town            | `town_chest_2`      | Double tap  |
+| Mob of the Dead | `cafe_chest`        | Cafeteria   |
+| Origins         | `bunker_tank_chest` | Generator 2 |
 
 ### **First box**
 
