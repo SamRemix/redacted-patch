@@ -1,7 +1,9 @@
-#include maps/mp/gametypes_zm/_hud_util;
-#include maps/mp/zombies/_zm_utility;
-#include common_scripts/utility;
-#include maps/mp/_utility;
+#include maps\mp\gametypes_zm\_hud_util;
+#include maps\mp\zombies\_zm_utility;
+#include maps\mp\zombies\_zm_weapons;
+#include maps\mp\zombies\_zm_magicbox;
+#include common_scripts\utility;
+#include maps\mp\_utility;
 
 init() {
   level thread onplayerconnect();
@@ -20,14 +22,13 @@ onplayerspawned() {
   level.config = array();
 
   // HUD
-  level.config["timer"] = true;
-  level.config["round_timer"] = true;
+  level.config["timers"] = true;
   level.config["trap_timer"] = false;
   level.config["sph"] = false;
   level.config["health_bar"] = false;
   level.config["zombies_remaining"] = false;
-  level.config["velocity_meter"] = false;
-  level.config["box_hits_tracker"] = false;
+  level.config["velocity"] = false;
+  level.config["box_hits"] = false;
 
   // FIRST BOX
   level.config["first_box"] = false;
@@ -89,7 +90,8 @@ init_dvar(dvar) {
 
 hud_alpha_controller() {
 	while (1) {
-		if (!getDvarInt("timer")) {
+		// TIMER - ROUND TIMER
+		if (!getDvarInt("timers")) {
       if (isDefined(level.timer)) {
 				level.timer.alpha = 0;
 			}
@@ -97,9 +99,7 @@ hud_alpha_controller() {
       if (isDefined(level.round_timer)) {
 				level.round_timer.alpha = 0;
 			}
-		}
-		
-		if (getDvarInt("timer") == 1) {
+		} else if (getDvarInt("timers") == 1) {
       if (isDefined(level.timer)) {
 				level.timer.alpha = 1;
 			}
@@ -109,12 +109,36 @@ hud_alpha_controller() {
 			}
 		}
 
+		// VELOCITY METER
+		if (!getDvarInt("velocity")) {
+      if (isDefined(level.velocity_meter)) {
+				level.velocity_meter.alpha = 0;
+			}
+		} else if (getDvarInt("velocity") == 1) {
+      if (isDefined(level.velocity_meter)) {
+				level.velocity_meter.alpha = 1;
+			}
+		}
+
+		// BOX HITS TRACKER
+		if (!getDvarInt("box_hits")) {
+      if (isDefined(level.box_hits)) {
+				level.box_hits.alpha = 0;
+			}
+		} else if (getDvarInt("box_hits") == 1) {
+      if (isDefined(level.box_hits)) {
+				level.box_hits.alpha = 1;
+			}
+		}
+
 		wait .05;
 	}
 }
 
 set_dvars() {
-	init_dvar("timer");
+	init_dvar("timers");
+	init_dvar("velocity");
+	init_dvar("box_hits");
 }
 
 /*
@@ -172,19 +196,13 @@ get_zombies_left() {
 
 */
 
-timer_hud() {
-  if (!level.config["timer"]) {
-    return;
-  }
-  
-  timer = createServerFontString("big", 1.8);
-  timer setPoint("TOPLEFT", "TOPLEFT", -46, -34);
+timer_hud() {  
+  level.timer = createServerFontString("big", 1.8);
+  level.timer setPoint("TOPLEFT", "TOPLEFT", -46, -34);
 
-  timer.alpha = 0;
+  level.timer.alpha = 0;
 
-  timer set_visibility(true);
-
-  timer setTimerUp(0);
+  level.timer setTimerUp(0);
 }
 
 keep_displaying_round_time(time) {
@@ -198,29 +216,23 @@ keep_displaying_round_time(time) {
 }
 
 round_timer_hud() {
-  if (!level.config["round_timer"]) {
-    return;
-  }
-
   level waittill("start_of_round");
 
-  round_timer = createServerFontString("big", 1.6);
-  round_timer setPoint("TOPLEFT", "TOPLEFT", -46, -14);
+  level.round_timer = createServerFontString("big", 1.6);
+  level.round_timer setPoint("TOPLEFT", "TOPLEFT", -46, -14);
   
-  round_timer.color = (1, .3, .3);
-  round_timer.alpha = 0;
-
-  round_timer set_visibility(true);
+  level.round_timer.color = (1, .3, .3);
+  level.round_timer.alpha = 0;
   
   while (1) {
 	  round_start = int(getTime() / 1000);
-    round_timer setTimerUp(0);
+    level.round_timer setTimerUp(0);
 
 	  level waittill("end_of_round");
 
 	  level.round_end = int(getTime() / 1000) - round_start;
 
-	  round_timer keep_displaying_round_time(level.round_end);
+	  level.round_timer keep_displaying_round_time(level.round_end);
 	}
 }
 
@@ -262,32 +274,28 @@ display_sph(sph) {
 }
 
 sph_hud() {
-  if (!level.config["sph"]) {
-    return;
-  }
-
   level waittill("start_of_round");
 
-  sph = createServerFontString("big", 1.4);
-  sph setPoint("TOPLEFT", "TOPLEFT", -46, 28);
+  level.sph = createServerFontString("big", 1.4);
+  level.sph setPoint("TOPLEFT", "TOPLEFT", -46, 28);
 
-  sph.hidewheninmenu = 1;
-  sph.label = &"sph: ";
+  level.sph.hidewheninmenu = 1;
+  level.sph.label = &"sph: ";
 
-  sph.alpha = 0;
+  level.sph.alpha = 0;
 
   while (1) {
     hordes = get_zombies_left() / 24;
 
 	  level waittill("end_of_round");
 
-    sph set_visibility(true);
+    level.sph set_visibility(true);
 
     second_per_horde = int((level.round_end / hordes) * 100) / 100;
 
-	  sph display_sph(second_per_horde);
+	  level.sph display_sph(second_per_horde);
 
-    sph set_visibility(false);
+    level.sph set_visibility(false);
   }
 }
 
@@ -363,19 +371,17 @@ zombies_remaining_hud() {
 }
 
 velocity_meter_hud() {
-  if (!level.config["velocity_meter"]) {
-    return;
-  }
+  level.velocity_meter = createServerFontString("big", 1.5);
+  level.velocity_meter setPoint(undefined, "TOP", 0, -18);
 
-  velocity_meter = createServerFontString("big", 1.5);
-  velocity_meter setPoint(undefined, "TOP", 0, -18);
+	level.velocity_meter.hidewheninmenu = 1;
 
-	velocity_meter.hidewheninmenu = 1;
+  level.velocity_meter.alpha = 0;
 
   while (1) {
 	  velocity = int(length(self getvelocity()));
     
-    velocity_meter setValue(velocity);
+    level.velocity_meter setValue(velocity);
 
     wait .05;
   }
@@ -396,14 +402,16 @@ get_box_hit() {
 }
 
 box_hits_tracker_hud() {
-  if (!level.config["box_hits_tracker"] || !is_survival_map()) {
+  if (!is_survival_map()) {
     return;
   }
 
-  box_hits = createServerFontString("big", 1.5);
-  box_hits setPoint("TOPRIGHT", "TOPRIGHT", 58, -10);
+  level.box_hits = createServerFontString("big", 1.5);
+  level.box_hits setPoint("TOPRIGHT", "TOPRIGHT", 58, -10);
 
-  box_hits.label = &"Box hits: ";
+  level.box_hits.label = &"Box hits: ";
+
+  level.box_hits.alpha = 0;
 
 	level.hits = 0;
 
@@ -412,7 +420,7 @@ box_hits_tracker_hud() {
   }
 
   while (1) {
-    box_hits setValue(level.hits);
+    level.box_hits setValue(level.hits);
 
     wait .05;
   }
