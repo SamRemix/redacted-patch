@@ -20,12 +20,12 @@ Some features are disabled by default because they are not allowed for playing w
 
 - Timer
 - Round timer
-- Trap timer
+- Trap timer (Mob of the Dead only)
 - SPH
 - Health bar
 - Zombie Counter
 - Velocity meter
-- Box hits tracker
+- Box hits tracker (survival maps only)
 
 ### Dvars
 
@@ -60,8 +60,8 @@ It will set the strafe speed to 80% and the backwards speed to 70%.
 | Map             | Weapons                                   |
 | :-------------- | :---------------------------------------- |
 | Survival maps   | Raygun mark II, Monkey bombs              |
-| Die rise        | Monkey bombs                              |
-| Mob of the dead | Raygun mark II, Blundergat                |
+| Die Rise        | Monkey bombs                              |
+| Mob of the Dead | Raygun mark II, Blundergat                |
 | Buried          | Raygun mark II, Monkey bombs, Paralyzer   |
 | Origins         | Raygun mark II, Monkey bombs, War machine |
 
