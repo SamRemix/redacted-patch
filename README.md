@@ -13,19 +13,19 @@ Some features are disabled by default because they are not allowed for playing w
 - Fixed strafe & backwards speed
 - Fixed trap & Jetgun *(is enabled on Victis maps & Mob of the Dead only)*
 - Full bank *(is enabled on Victis maps only)*
-- Start box location *(disabled)*
-- First box weapons *(disabled)*
+- Start box location
+- First box weapons
 
 ### Hud
 
 - Timer
 - Round timer
-- Trap timer *(disabled, can be enabled on Mob of the Dead only)*
-- SPH *(disabled)*
-- Health bar *(disabled)*
-- Zombie Counter *(disabled)*
-- Velocity meter *(disabled)*
-- Box hits tracker *(disabled, can be enabled on survival maps only)*
+- Trap timer *(can be enabled on Mob of the Dead only)*
+- SPH
+- Health bar
+- Zombie Counter
+- Velocity meter
+- Box hits tracker *(can be enabled on survival maps only)*
 
 ### Dvars
 
