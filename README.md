@@ -29,11 +29,11 @@ Some features are disabled by default because they are not allowed for playing w
 
 ### Dvars
 
-| Element             | Dvar                | Default  |
-| :------------------ | :------------------ | :------- |
-| Timer + Round timer | `timers` + `0 /  1` | Enabled  |
-| Velocity meter      | `velocity` + `0/1`  | Disabled |
-| Box hits tracker    | `box_hits` + `0 1`  | Disabled |
+| Element             | Dvar               | Default  |
+| :------------------ | :----------------- | :------- |
+| Timer + Round timer | `timers` + `0 / 1` | Enabled  |
+| Velocity meter      | `velocity` + `0/1` | Disabled |
+| Box hits tracker    | `box_hits` + `0 1` | Disabled |
 
 ## **Notes**
 
