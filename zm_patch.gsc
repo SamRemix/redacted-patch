@@ -274,28 +274,32 @@ display_sph(sph) {
 }
 
 sph_hud() {
+  if (!level.config["sph"]) {
+    return;
+  }
+
   level waittill("start_of_round");
 
-  level.sph = createServerFontString("big", 1.4);
-  level.sph setPoint("TOPLEFT", "TOPLEFT", -46, 28);
+  sph = createServerFontString("big", 1.4);
+  sph setPoint("TOPLEFT", "TOPLEFT", -46, 28);
 
-  level.sph.hidewheninmenu = 1;
-  level.sph.label = &"sph: ";
+  sph.hidewheninmenu = 1;
+  sph.label = &"sph: ";
 
-  level.sph.alpha = 0;
+  sph.alpha = 0;
 
   while (1) {
     hordes = get_zombies_left() / 24;
 
 	  level waittill("end_of_round");
 
-    level.sph set_visibility(true);
+    sph set_visibility(true);
 
     second_per_horde = int((level.round_end / hordes) * 100) / 100;
 
-	  level.sph display_sph(second_per_horde);
+	  sph display_sph(second_per_horde);
 
-    level.sph set_visibility(false);
+    sph set_visibility(false);
   }
 }
 
