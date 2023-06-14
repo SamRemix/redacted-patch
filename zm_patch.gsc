@@ -28,7 +28,7 @@ onplayerspawned() {
   level.config["health_bar"] = false;
   level.config["zombies_remaining"] = false;
   level.config["velocity"] = false;
-  level.config["box_hits"] = true;
+  level.config["box_hits"] = false;
 
   // FIRST BOX
   level.config["first_box"] = false;
