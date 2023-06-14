@@ -16,3 +16,7 @@
 ### Box hits tracker
 
 - is diplay on Nuketown but doesn't work
+
+### Rayguns average
+
+- the raygun is counted when the box has finished spinning and not when it's taken
