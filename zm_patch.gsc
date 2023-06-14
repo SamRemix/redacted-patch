@@ -28,7 +28,7 @@ onplayerspawned() {
   level.config["health_bar"] = false;
   level.config["zombies_remaining"] = false;
   level.config["velocity"] = false;
-  level.config["box_hits"] = false;
+  level.config["box_hits"] = true;
 
   // FIRST BOX
   level.config["first_box"] = false;
@@ -47,7 +47,7 @@ onplayerspawned() {
 
   for(;;) {
 	  self waittill("spawned_player");
-      
+    
     flag_wait("initial_blackscreen_passed");
     
     // HUD
@@ -59,6 +59,7 @@ onplayerspawned() {
     self thread zombies_remaining_hud();
     self thread velocity_meter_hud();
     self thread box_hits_tracker_hud();
+    self thread rayguns_average_hud();
 
     // PERSISTENT UPGRADES
     self thread fill_bank();
@@ -125,10 +126,18 @@ hud_alpha_controller() {
       if (isDefined(level.box_hits)) {
 				level.box_hits.alpha = 0;
 			}
+
+      if (isDefined(level.rayguns_average)) {
+				level.rayguns_average.alpha = 0;
+      }
 		} else if (getDvarInt("box_hits") == 1) {
       if (isDefined(level.box_hits)) {
 				level.box_hits.alpha = 1;
 			}
+
+      if (isDefined(level.rayguns_average)) {
+				level.rayguns_average.alpha = 1;
+      }
 		}
 
 		wait .05;
@@ -425,6 +434,59 @@ box_hits_tracker_hud() {
 
   while (1) {
     level.box_hits setValue(level.hits);
+
+    wait .05;
+  }
+}
+
+is_raygun() {
+  while (1) {
+    while (self.zbarrier.weapon_string != "ray_gun_zm") {
+      wait .05;
+    }
+
+    level.rayguns++;
+
+    while (self.zbarrier.weapon_string == "ray_gun_zm") {
+      wait .05;
+    }
+  }
+}
+
+is_mark2() {
+  while (1) {
+    while (self.zbarrier.weapon_string != "raygun_mark2_zm") {
+      wait .05;
+    }
+
+    level.mark2++;
+
+    while (self.zbarrier.weapon_string == "raygun_mark2_zm") {
+      wait .05;
+    }
+  }
+}
+
+rayguns_average_hud() {
+  level.rayguns_average = createServerFontString("big", 1.2);
+  level.rayguns_average setPoint("TOPRIGHT", "TOPRIGHT", 58, 8);
+
+  level.rayguns_average.label = &"Rayguns avg: ";
+
+  level.rayguns_average.alpha = 0;
+
+	level.rayguns = 0;
+	level.mark2 = 0;
+
+	foreach(chest in level.chests) {
+		chest thread is_raygun();
+		chest thread is_mark2();
+  }
+
+  while (1) {
+    average = int((level.hits / (level.rayguns + level.mark2)) * 100) / 100;
+
+    level.rayguns_average setValue(average);
 
     wait .05;
   }

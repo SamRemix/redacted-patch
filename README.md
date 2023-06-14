@@ -26,6 +26,7 @@ Some features are disabled by default because they are not allowed for playing w
 - Zombie Counter
 - Velocity meter
 - Box hits tracker *(can be enabled on survival maps only)*
+  - \+ Rayguns average
 
 ### Dvars
 
