@@ -441,33 +441,23 @@ box_hits_tracker_hud() {
 
 is_raygun() {
   while (1) {
-    while (self.zbarrier.weapon_string != "ray_gun_zm") {
+    while (self.zbarrier.weapon_string != "ray_gun_zm" && self.zbarrier.weapon_string != "raygun_mark2_zm") {
       wait .05;
     }
 
     level.rayguns++;
 
-    while (self.zbarrier.weapon_string == "ray_gun_zm") {
-      wait .05;
-    }
-  }
-}
-
-is_mark2() {
-  while (1) {
-    while (self.zbarrier.weapon_string != "raygun_mark2_zm") {
-      wait .05;
-    }
-
-    level.mark2++;
-
-    while (self.zbarrier.weapon_string == "raygun_mark2_zm") {
+    while (self.zbarrier.weapon_string == "ray_gun_zm" || self.zbarrier.weapon_string == "raygun_mark2_zm") {
       wait .05;
     }
   }
 }
 
 rayguns_average_hud() {
+  if (!is_survival_map()) {
+    return;
+  }
+
   level.rayguns_average = createServerFontString("big", 1.2);
   level.rayguns_average setPoint("TOPRIGHT", "TOPRIGHT", 58, 8);
 
@@ -476,15 +466,13 @@ rayguns_average_hud() {
   level.rayguns_average.alpha = 0;
 
 	level.rayguns = 0;
-	level.mark2 = 0;
 
 	foreach(chest in level.chests) {
 		chest thread is_raygun();
-		chest thread is_mark2();
   }
 
   while (1) {
-    average = int((level.hits / (level.rayguns + level.mark2)) * 100) / 100;
+    average = int((level.hits / level.rayguns) * 100) / 100;
 
     level.rayguns_average setValue(average);
 
