@@ -8,7 +8,6 @@
 ## **Hud**
 
 - Round time splits
-- Raygun average for box hits tracker
 - Buildables counter
 
 ## **Fix**
