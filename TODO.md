@@ -7,6 +7,7 @@
 
 ## **Hud**
 
+- Real time SPH
 - Round time splits
 - Buildables counter
 - Drop cycle tracker
