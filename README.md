@@ -21,7 +21,7 @@ Some features are disabled by default because they are not allowed for playing w
 - Timer
 - Round timer
 - Trap timer *(can be enabled on Mob of the Dead only)*
-- SPH
+- SPH *(enabled from round 50, appears at the end of rounds)*
 - Health bar
 - Zombie Counter
 - Velocity meter
@@ -55,6 +55,20 @@ onplayerspawned() {
 ```
 
 It will set the strafe speed to 80% and the backwards speed to 70%.
+
+### **SPH**
+
+By default, SPH appears from round 50, you can change it by editing this line:
+
+```cpp
+onplayerspawned() {
+  ...
+
+  level.config["sph_round_start"] = 50;
+
+  ...
+}
+```
 
 ### **Start box location**
 
