@@ -11,8 +11,8 @@ Some features are disabled by default because they are not allowed for playing w
 ### General
 
 - Fixed strafe & backwards speed
-- Fixed trap & Jetgun *(is enabled on Victis maps & Mob of the Dead)*
-- Full bank *(is enabled on Victis maps)*
+- Fixed trap & Jetgun *(enabled on Victis maps & Mob of the Dead)*
+- Full bank *(enabled on Victis maps)*
 - [Start box location](#start-box-location)
 - [First box weapons](#first-box-weapons)
 
@@ -74,15 +74,15 @@ It will set the strafe speed to 80% and the backwards speed to 70%.
 | Buried          | Raygun mark II, Monkey bombs, Paralyzer   |
 | Origins         | Raygun mark II, Monkey bombs, War machine |
 
-- Break after round 20
+- Break after round 10
 
-You can change first box limit round by editing this line:
+You can change first box break round by editing this line:
 
 ```cpp
 onplayerspawned() {
   ...
 
-  level.config["revert_round"] = 20;
+  level.config["break_round"] = 10;
 
   ...
 }

@@ -32,8 +32,8 @@ onplayerspawned() {
   level.config["box_hits"] = false;
 
   // FIRST BOX
-  level.config["first_box"] = false;
-  level.config["revert_round"] = 20;
+  level.config["first_box"] = true;
+  level.config["break_round"] = 10;
 
   // MOVEMENT
   level.config["firstroom_movement"] = false;
@@ -124,16 +124,16 @@ hud_alpha_controller() {
 
 		// BOX HITS TRACKER
 		if (!getDvarInt("box_hits")) {
-      if (isDefined(level.box_hits)) {
-				level.box_hits.alpha = 0;
+      if (isDefined(level.box_hits_tracker)) {
+				level.box_hits_tracker.alpha = 0;
 			}
 
       if (isDefined(level.rayguns_average)) {
 				level.rayguns_average.alpha = 0;
       }
 		} else if (getDvarInt("box_hits") == 1) {
-      if (isDefined(level.box_hits)) {
-				level.box_hits.alpha = 1;
+      if (isDefined(level.box_hits_tracker)) {
+				level.box_hits_tracker.alpha = 1;
 			}
 
       if (isDefined(level.rayguns_average)) {
@@ -411,7 +411,7 @@ get_box_hit() {
       wait .05;
     }
 
-		level.hits++;
+		level.box_hits++;
 
     while (self.zbarrier getzbarrierpiecestate(2) == "opening") {
       wait .05;
@@ -424,21 +424,21 @@ box_hits_tracker_hud() {
     return;
   }
 
-  level.box_hits = createServerFontString("big", 1.5);
-  level.box_hits setPoint("TOPRIGHT", "TOPRIGHT", 58, -10);
+  level.box_hits_tracker = createServerFontString("big", 1.5);
+  level.box_hits_tracker setPoint("TOPRIGHT", "TOPRIGHT", 58, -10);
 
-  level.box_hits.label = &"Box hits: ";
+  level.box_hits_tracker.label = &"Box hits: ";
 
-  level.box_hits.alpha = 0;
+  level.box_hits_tracker.alpha = 0;
 
-	level.hits = 0;
+	level.box_hits = 0;
 
 	foreach(chest in level.chests) {
 		chest thread get_box_hit();
   }
 
   while (1) {
-    level.box_hits setValue(level.hits);
+    level.box_hits_tracker setValue(level.box_hits);
 
     wait .05;
   }
@@ -477,7 +477,7 @@ rayguns_average_hud() {
   }
 
   while (1) {
-    average = int((level.hits / level.rayguns) * 100) / 100;
+    average = int((level.box_hits / level.rayguns) * 100) / 100;
 
     level.rayguns_average setValue(average);
 
@@ -566,7 +566,7 @@ first_box_weapons() {
 
 	box_hits = -1;
 
-	while((box_hits < forced_box_guns.size) && (level.round_number < level.config["revert_round"] + 1)) {
+	while((box_hits < forced_box_guns.size) && (level.round_number < level.config["break_round"] + 1)) {
 		if(box_hits < level.chest_accessed) {
 			if(level.chest_accessed != forced_box_guns.size) {
 				gun = forced_box_guns[box_hits + 1];
