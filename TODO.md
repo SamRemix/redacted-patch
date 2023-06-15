@@ -9,7 +9,6 @@
 
 - Round time splits
 - Buildables counter
-- Disable SPH if current round is less than 50
 - Drop cycle tracker
 
 ## **Fix**
