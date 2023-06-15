@@ -24,7 +24,8 @@ onplayerspawned() {
   // HUD
   level.config["timers"] = true;
   level.config["trap_timer"] = false;
-  level.config["sph"] = false;
+  level.config["sph"] = true;
+  level.config["sph_round_start"] = 50;
   level.config["health_bar"] = false;
   level.config["zombies_remaining"] = false;
   level.config["velocity"] = false;
@@ -285,6 +286,10 @@ display_sph(sph) {
 sph_hud() {
   if (!level.config["sph"]) {
     return;
+  }
+
+  while (level.round_number < level.config["sph_round_start"]) {
+    wait .1;
   }
 
   level waittill("start_of_round");
