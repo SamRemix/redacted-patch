@@ -11,21 +11,21 @@ Some features are disabled by default because they are not allowed for playing w
 ### General
 
 - Fixed strafe & backwards speed
-- Fixed trap & Jetgun *(is enabled on Victis maps & Mob of the Dead only)*
-- Full bank *(is enabled on Victis maps only)*
-- Start box location
-- First box weapons
+- Fixed trap & Jetgun *(is enabled on Victis maps & Mob of the Dead)*
+- Full bank *(is enabled on Victis maps)*
+- [Start box location](#start-box-location)
+- [First box weapons](#first-box-weapons)
 
 ### Hud
 
 - Timer
 - Round timer
-- Trap timer *(can be enabled on Mob of the Dead only)*
-- SPH *(enabled from round 50, appears at the end of rounds)*
+- Trap timer *(can be enabled on Mob of the Dead)*
+- [SPH](#sph)
 - Health bar
 - Zombie Counter
 - Velocity meter
-- Box hits tracker *(can be enabled on survival maps only)*
+- Box hits tracker *(can be enabled on survival maps)*
   - \+ Rayguns average
 
 ### Dvars
@@ -56,20 +56,6 @@ onplayerspawned() {
 
 It will set the strafe speed to 80% and the backwards speed to 70%.
 
-### **SPH**
-
-By default, SPH appears from round 50, you can change it by editing this line:
-
-```cpp
-onplayerspawned() {
-  ...
-
-  level.config["sph_round_start"] = 50;
-
-  ...
-}
-```
-
 ### **Start box location**
 
 | Map             | Box location        |             |
@@ -78,7 +64,7 @@ onplayerspawned() {
 | Mob of the Dead | `cafe_chest`        | Cafeteria   |
 | Origins         | `bunker_tank_chest` | Generator 2 |
 
-### **First box**
+### **First box weapons**
 
 | Map             | Weapons                                   |
 | :-------------- | :---------------------------------------- |
@@ -88,13 +74,32 @@ onplayerspawned() {
 | Buried          | Raygun mark II, Monkey bombs, Paralyzer   |
 | Origins         | Raygun mark II, Monkey bombs, War machine |
 
-By default, first box will break after round 20, you can change it by editing this line:
+- Break after round 20
+
+You can change first box limit round by editing this line:
 
 ```cpp
 onplayerspawned() {
   ...
 
   level.config["revert_round"] = 20;
+
+  ...
+}
+```
+
+### **SPH**
+
+- Enabled from round 50
+- Appears at the end of rounds
+
+You can change SPH round start by editing this line:
+
+```cpp
+onplayerspawned() {
+  ...
+
+  level.config["sph_round_start"] = 50;
 
   ...
 }
