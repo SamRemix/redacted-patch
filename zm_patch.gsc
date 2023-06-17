@@ -33,7 +33,7 @@ onplayerspawned() {
 
   // FIRST BOX
   level.config["first_box"] = true;
-  level.config["break_round"] = 10;
+  level.config["first_box_break_round"] = 10;
 
   // MOVEMENT
   level.config["firstroom_movement"] = false;
@@ -111,6 +111,17 @@ hud_alpha_controller() {
 			}
 		}
 
+		// ZOMBIES REMAINING
+		if (!getDvarInt("remaining")) {
+      if (isDefined(level.remaining)) {
+				level.remaining.alpha = 0;
+			}
+		} else if (getDvarInt("remaining") == 1) {
+      if (isDefined(level.remaining)) {
+				level.remaining.alpha = 1;
+			}
+		}
+
 		// VELOCITY METER
 		if (!getDvarInt("velocity")) {
       if (isDefined(level.velocity_meter)) {
@@ -147,6 +158,7 @@ hud_alpha_controller() {
 
 set_dvars() {
 	init_dvar("timers");
+	init_dvar("remaining");
 	init_dvar("velocity");
 	init_dvar("box_hits");
 }
@@ -156,17 +168,6 @@ set_dvars() {
   UTILITY FUNCTIONS
 
 */
-
-set_visibility(visible) {
-  self fadeOverTime(.3);
-
-  if (visible) {
-    self.alpha = 1;
-    return;
-  }
-  
-  self.alpha = 0;
-}
 
 is_survival_map() {
   if (level.scr_zm_ui_gametype_group == "zsurvival" || level.script == "zm_nuked") {
@@ -247,7 +248,7 @@ round_timer_hud() {
 }
 
 trap_timer_hud() {
-	if(!level.config["trap_timer"] || level.script != "zm_prison") {
+	if(!level.config["trap_timer"] || !is_mob_of_the_dead()) {
 		return;
   }
 
@@ -255,7 +256,6 @@ trap_timer_hud() {
   trap_timer setPoint("TOPLEFT", "TOPLEFT", -46, 6);
 
 	trap_timer.color = (1, .3, .3);
-	trap_timer.alpha = 0;
 
 	while (1) {
 		level waittill("trap_activated");
@@ -263,12 +263,13 @@ trap_timer_hud() {
 		if(!level.trap_activated) {
 			wait .5;
 
-      trap_timer set_visibility(true);
+      trap_timer.alpha = 1;
+
 			trap_timer setTimer(50);
 
 			wait 50;
 
-      trap_timer set_visibility(false);
+      trap_timer.alpha = 0;
 		}
 	}
 }
@@ -298,22 +299,21 @@ sph_hud() {
   sph setPoint("TOPLEFT", "TOPLEFT", -46, 28);
 
   sph.hidewheninmenu = 1;
-  sph.label = &"sph: ";
-
+  sph.label = &"SPH: ";
   sph.alpha = 0;
 
   while (1) {
     hordes = get_zombies_left() / 24;
 
 	  level waittill("end_of_round");
-
-    sph set_visibility(true);
+    
+    sph.alpha = 1;
 
     second_per_horde = int((level.round_end / hordes) * 100) / 100;
 
 	  sph display_sph(second_per_horde);
 
-    sph set_visibility(false);
+    sph.alpha = 0;
   }
 }
 
@@ -333,24 +333,17 @@ health_bar_hud() {
   health_bar.barframe.hidewheninmenu = 1;
   health_bar_text.hidewheninmenu = 1;
 
-  health_bar.alpha = 0;
-  health_bar.bar.alpha = 0;
-  health_bar.barframe.alpha = 0;
-  health_bar_text.alpha = 0;
-
   while (1) {
     if (isDefined(self.e_afterlife_corpse) || is_true(self.waiting_to_revive)) {
-      health_bar set_visibility(false);
-      health_bar.bar set_visibility(false);
-      health_bar.barframe set_visibility(false);
-      health_bar_text set_visibility(false);
-    }
-
-    if (health_bar.alpha == 0) {
-      health_bar set_visibility(true);
-      health_bar.bar set_visibility(true);
-      health_bar.barframe set_visibility(true);
-      health_bar_text set_visibility(true);
+      health_bar.alpha = 0;
+      health_bar.bar.alpha = 0;
+      health_bar.barframe.alpha = 0;
+      health_bar_text.alpha = 0;
+    } else {
+      health_bar.alpha = 1;
+      health_bar.bar.alpha = 1;
+      health_bar.barframe.alpha = 1;
+      health_bar_text.alpha = 1;
     }
 
     health_bar updatebar(self.health / self.maxhealth);
@@ -361,28 +354,16 @@ health_bar_hud() {
 }
 
 zombies_remaining_hud() {
-  if (!level.config["zombies_remaining"]) {
-    return;
-  }
+  level.remaining = createServerFontString("big", 1.5);
+  level.remaining setPoint(undefined, "BOTTOM", 0, -18);
 
-  remaining = createServerFontString("big", 1.5);
-  remaining setPoint(undefined, "BOTTOM", 0, -18);
-
-  remaining.hidewheninmenu = 1;
-  remaining.label = &"Remaining: ";
-
-  remaining.color = (1, 0, 0);
-  remaining.alpha = 0;
-
+  level.remaining.hidewheninmenu = 1;
+  level.remaining.label = &"Remaining: ";
+  level.remaining.color = (1, 0, 0);
+  level.remaining.alpha = 0;
 
   while (1) {
-    remaining set_visibility(true);
-    
-    if (get_zombies_left() == 0) {
-      remaining set_visibility(false);
-    }
-
-	  remaining setValue(get_zombies_left());
+	  level.remaining setValue(get_zombies_left());
 
     wait .05;
   }
@@ -393,7 +374,6 @@ velocity_meter_hud() {
   level.velocity_meter setPoint(undefined, "TOP", 0, -18);
 
 	level.velocity_meter.hidewheninmenu = 1;
-
   level.velocity_meter.alpha = 0;
 
   while (1) {
@@ -427,10 +407,7 @@ box_hits_tracker_hud() {
   level.box_hits_tracker = createServerFontString("big", 1.5);
   level.box_hits_tracker setPoint("TOPRIGHT", "TOPRIGHT", 58, -10);
 
-  level.box_hits_tracker.label = &"Box hits: ";
-
   level.box_hits_tracker.alpha = 0;
-
 	level.box_hits = 0;
 
 	foreach(chest in level.chests) {
@@ -438,6 +415,12 @@ box_hits_tracker_hud() {
   }
 
   while (1) {
+    while (!level.box_hits) {
+      wait .05;
+    }
+
+    level.box_hits_tracker.label = &"Box hits: ";
+
     level.box_hits_tracker setValue(level.box_hits);
 
     wait .05;
@@ -466,10 +449,7 @@ rayguns_average_hud() {
   level.rayguns_average = createServerFontString("big", 1.2);
   level.rayguns_average setPoint("TOPRIGHT", "TOPRIGHT", 58, 8);
 
-  level.rayguns_average.label = &"Rayguns avg: ";
-
   level.rayguns_average.alpha = 0;
-
 	level.rayguns = 0;
 
 	foreach(chest in level.chests) {
@@ -477,6 +457,12 @@ rayguns_average_hud() {
   }
 
   while (1) {
+    while (level.rayguns < 2) {
+      wait .05;
+    }
+
+    level.rayguns_average.label = &"Rayguns avg: ";
+
     average = int((level.box_hits / level.rayguns) * 100) / 100;
 
     level.rayguns_average setValue(average);
@@ -535,23 +521,23 @@ first_box_weapons() {
 	switch(level.script) {
 		case "zm_transit":
 		case "zm_nuked":
-			forced_box_guns = array("raygun_mark2_zm", "cymbal_monkey_zm");
+			box_weapons = array("raygun_mark2_zm", "cymbal_monkey_zm");
 			break;
 
 		case "zm_highrise":
-			forced_box_guns = array("cymbal_monkey_zm");
+			box_weapons = array("cymbal_monkey_zm");
 			break;
 
 		case "zm_prison":
-			forced_box_guns = array("raygun_mark2_zm", "blundergat_zm");
+			box_weapons = array("raygun_mark2_zm", "blundergat_zm");
 			break;
 
 		case "zm_buried":
-			forced_box_guns = array("raygun_mark2_zm", "cymbal_monkey_zm", "slowgun_zm");
+			box_weapons = array("raygun_mark2_zm", "cymbal_monkey_zm", "slowgun_zm");
 			break;
 
 		case "zm_tomb":
-			forced_box_guns = array("raygun_mark2_zm", "cymbal_monkey_zm", "m32_zm");
+			box_weapons = array("raygun_mark2_zm", "cymbal_monkey_zm", "m32_zm");
 			break;
 			
 		default:
@@ -566,10 +552,10 @@ first_box_weapons() {
 
 	box_hits = -1;
 
-	while((box_hits < forced_box_guns.size) && (level.round_number < level.config["break_round"] + 1)) {
+	while((box_hits < box_weapons.size) && (level.round_number < level.config["first_box_break_round"] + 1)) {
 		if(box_hits < level.chest_accessed) {
-			if(level.chest_accessed != forced_box_guns.size) {
-				gun = forced_box_guns[box_hits + 1];
+			if(level.chest_accessed != box_weapons.size) {
+				gun = box_weapons[box_hits + 1];
 				level.zombie_weapons[gun].is_in_box = 1;
 			}
 

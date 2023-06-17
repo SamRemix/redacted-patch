@@ -30,11 +30,12 @@ Some features are disabled by default because they are not allowed for playing w
 
 ### Dvars
 
-| Element             | Dvar               | Default  |
-| :------------------ | :----------------- | :------- |
-| Timer + Round timer | `timers` + `0 1`   | Enabled  |
-| Velocity meter      | `velocity` + `0 1` | Disabled |
-| Box hits tracker    | `box_hits` + `0 1` | Disabled |
+| Element             | Dvar                | Default  |
+| :------------------ | :------------------ | :------- |
+| Timer + Round timer | `timers` + `0 1`    | Enabled  |
+| Zombies remaining   | `remaining` + `0 1` | Disabled |
+| Velocity meter      | `velocity` + `0 1`  | Disabled |
+| Box hits tracker    | `box_hits` + `0 1`  | Disabled |
 
 ## **Notes**
 
@@ -58,17 +59,18 @@ It will set the strafe speed to 80% and the backwards speed to 70%.
 
 ### **Start box location**
 
-| Map             | Box location        |             |
-| :-------------- | :------------------ | :---------- |
-| Town            | `town_chest_2`      | Double tap  |
-| Mob of the Dead | `cafe_chest`        | Cafeteria   |
-| Origins         | `bunker_tank_chest` | Generator 2 |
+| Map             | Box location |
+| :-------------- | :----------- |
+| Town            | Double tap   |
+| Mob of the Dead | Cafeteria    |
+| Origins         | Generator 2  |
 
 ### **First box weapons**
 
 | Map             | Weapons                                   |
 | :-------------- | :---------------------------------------- |
 | Survival maps   | Raygun mark II, Monkey bombs              |
+| Tranzit         | Raygun mark II, Monkey bombs              |
 | Die Rise        | Monkey bombs                              |
 | Mob of the Dead | Raygun mark II, Blundergat                |
 | Buried          | Raygun mark II, Monkey bombs, Paralyzer   |
@@ -82,7 +84,7 @@ You can change first box break round by editing this line:
 onplayerspawned() {
   ...
 
-  level.config["break_round"] = 10;
+  level.config["first_box_break_round"] = 10;
 
   ...
 }
