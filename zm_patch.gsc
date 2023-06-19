@@ -23,11 +23,8 @@ onplayerspawned() {
 
   // HUD
   level.config["timers"] = true;
-  level.config["trap_timer"] = false;
   level.config["sph"] = true;
   level.config["sph_round_start"] = 50;
-  level.config["health_bar"] = false;
-  level.config["zombies_remaining"] = false;
   level.config["velocity"] = false;
   level.config["box_hits"] = false;
 
@@ -39,7 +36,7 @@ onplayerspawned() {
   level.config["firstroom_movement"] = false;
 
   // FIRST BOX
-  level thread start_box_location(); // enabled by default
+  level thread start_box_location();
   level thread first_box_weapons();
 
 	thread set_dvars();
@@ -54,10 +51,7 @@ onplayerspawned() {
     // HUD
     self thread timer_hud();
     self thread round_timer_hud();
-    self thread trap_timer_hud();
     self thread sph_hud();
-    self thread health_bar_hud();
-    self thread zombies_remaining_hud();
     self thread velocity_meter_hud();
     self thread box_hits_tracker_hud();
     self thread rayguns_average_hud();
@@ -93,64 +87,35 @@ init_dvar(dvar) {
 hud_alpha_controller() {
 	while (1) {
 		// TIMER - ROUND TIMER
-		if (!getDvarInt("timers")) {
-      if (isDefined(level.timer)) {
+    if (isDefined(level.timer) && isDefined(level.round_timer)) {
+      if (!getDvarInt("timers")) {
 				level.timer.alpha = 0;
-			}
-
-      if (isDefined(level.round_timer)) {
-				level.round_timer.alpha = 0;
-			}
-		} else if (getDvarInt("timers") == 1) {
-      if (isDefined(level.timer)) {
+			  level.round_timer.alpha = 0;
+      } else if (getDvarInt("timers") == 1) {
 				level.timer.alpha = 1;
-			}
-
-      if (isDefined(level.round_timer)) {
-				level.round_timer.alpha = 1;
-			}
-		}
-
-		// ZOMBIES REMAINING
-		if (!getDvarInt("remaining")) {
-      if (isDefined(level.remaining)) {
-				level.remaining.alpha = 0;
-			}
-		} else if (getDvarInt("remaining") == 1) {
-      if (isDefined(level.remaining)) {
-				level.remaining.alpha = 1;
-			}
-		}
+			  level.round_timer.alpha = 1;
+      }
+    }
 
 		// VELOCITY METER
-		if (!getDvarInt("velocity")) {
-      if (isDefined(level.velocity_meter)) {
+    if (isDefined(level.velocity_meter)) {
+      if (!getDvarInt("velocity")) {
 				level.velocity_meter.alpha = 0;
-			}
-		} else if (getDvarInt("velocity") == 1) {
-      if (isDefined(level.velocity_meter)) {
+      } else if (getDvarInt("velocity") == 1) {
 				level.velocity_meter.alpha = 1;
-			}
-		}
+      }
+    }
 
 		// BOX HITS TRACKER
-		if (!getDvarInt("box_hits")) {
-      if (isDefined(level.box_hits_tracker)) {
+    if (isDefined(level.box_hits_tracker) && isDefined(level.rayguns_average)) {
+      if (!getDvarInt("box_hits")) {
 				level.box_hits_tracker.alpha = 0;
-			}
-
-      if (isDefined(level.rayguns_average)) {
 				level.rayguns_average.alpha = 0;
-      }
-		} else if (getDvarInt("box_hits") == 1) {
-      if (isDefined(level.box_hits_tracker)) {
+      } else if (getDvarInt("box_hits") == 1) {
 				level.box_hits_tracker.alpha = 1;
-			}
-
-      if (isDefined(level.rayguns_average)) {
 				level.rayguns_average.alpha = 1;
       }
-		}
+    }
 
 		wait .05;
 	}
@@ -158,7 +123,6 @@ hud_alpha_controller() {
 
 set_dvars() {
 	init_dvar("timers");
-	init_dvar("remaining");
 	init_dvar("velocity");
 	init_dvar("box_hits");
 }
@@ -247,33 +211,6 @@ round_timer_hud() {
 	}
 }
 
-trap_timer_hud() {
-	if(!level.config["trap_timer"] || !is_mob_of_the_dead()) {
-		return;
-  }
-
-  trap_timer = createServerFontString("big", 1.4);
-  trap_timer setPoint("TOPLEFT", "TOPLEFT", -46, 6);
-
-	trap_timer.color = (1, .3, .3);
-
-	while (1) {
-		level waittill("trap_activated");
-
-		if(!level.trap_activated) {
-			wait .5;
-
-      trap_timer.alpha = 1;
-
-			trap_timer setTimer(50);
-
-			wait 50;
-
-      trap_timer.alpha = 0;
-		}
-	}
-}
-
 display_sph(sph) {
   level endon("start_of_round");
 
@@ -314,58 +251,6 @@ sph_hud() {
 	  sph display_sph(second_per_horde);
 
     sph.alpha = 0;
-  }
-}
-
-health_bar_hud() {
-  if (!level.config["health_bar"]) {
-    return;
-  }
-
-  health_bar = createPrimaryProgressbar();
-  health_bar setPoint(undefined, "BOTTOM_LEFT", 10, -72);
-
-  health_bar_text = createPrimaryProgressbarText();
-  health_bar_text setPoint(undefined, "BOTTOM_LEFT", 10, -86);
-
-  health_bar.hidewheninmenu = 1;
-  health_bar.bar.hidewheninmenu = 1;
-  health_bar.barframe.hidewheninmenu = 1;
-  health_bar_text.hidewheninmenu = 1;
-
-  while (1) {
-    if (isDefined(self.e_afterlife_corpse) || is_true(self.waiting_to_revive)) {
-      health_bar.alpha = 0;
-      health_bar.bar.alpha = 0;
-      health_bar.barframe.alpha = 0;
-      health_bar_text.alpha = 0;
-    } else {
-      health_bar.alpha = 1;
-      health_bar.bar.alpha = 1;
-      health_bar.barframe.alpha = 1;
-      health_bar_text.alpha = 1;
-    }
-
-    health_bar updatebar(self.health / self.maxhealth);
-    health_bar_text setValue(self.health);
-
-    wait .05;
-  }
-}
-
-zombies_remaining_hud() {
-  level.remaining = createServerFontString("big", 1.5);
-  level.remaining setPoint(undefined, "BOTTOM", 0, -18);
-
-  level.remaining.hidewheninmenu = 1;
-  level.remaining.label = &"Remaining: ";
-  level.remaining.color = (1, 0, 0);
-  level.remaining.alpha = 0;
-
-  while (1) {
-	  level.remaining setValue(get_zombies_left());
-
-    wait .05;
   }
 }
 
@@ -580,9 +465,6 @@ box_weapon_check(weapon) {
 	if (self has_weapon_or_upgrade(weapon)) {
 		return 0;
 	}
-
-	// if (!limited_weapon_below_quota(weapon_key, self, getentarray("specialty_weapupgrade", "script_noteworthy")))
-	// 	return "";
 
 	switch (weapon) {
 		case "ray_gun_zm":
