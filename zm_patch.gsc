@@ -10,8 +10,8 @@ init() {
 }
 
 onplayerconnect() {
-	level waittill("connecting", player);
-	player thread onplayerspawned();
+  level waittill("connecting", player);
+  player thread onplayerspawned();
 }
 
 onplayerspawned() {
@@ -39,12 +39,12 @@ onplayerspawned() {
   level thread start_box_location();
   level thread first_box_weapons();
 
-	thread set_dvars();
+  thread set_dvars();
 
-	level thread hud_alpha_controller();
+  level thread hud_alpha_controller();
 
   for(;;) {
-	  self waittill("spawned_player");
+    self waittill("spawned_player");
     
     flag_wait("initial_blackscreen_passed");
     
@@ -77,21 +77,21 @@ onplayerspawned() {
 */
 
 init_dvar(dvar) {
-	if (level.config[dvar]) {
-		setDvar(dvar, 1);
-	} else {
-		setDvar(dvar, 0);
-	}
+  if (level.config[dvar]) {
+    setDvar(dvar, 1);
+  } else {
+    setDvar(dvar, 0);
+  }
 }
 
 hud_alpha_controller() {
-	while (1) {
-		// TIMER - ROUND TIMER
-    if (isDefined(level.timer) && isDefined(level.round_timer)) {
-      if (!getDvarInt("timers")) {
-				level.timer.alpha = 0;
-			  level.round_timer.alpha = 0;
-      } else if (getDvarInt("timers") == 1) {
+  while (1) {
+  // TIMER - ROUND TIMER
+  if (isDefined(level.timer) && isDefined(level.round_timer)) {
+    if (!getDvarInt("timers")) {
+      level.timer.alpha = 0;
+      level.round_timer.alpha = 0;
+    } else if (getDvarInt("timers") == 1) {
 				level.timer.alpha = 1;
 			  level.round_timer.alpha = 1;
       }
