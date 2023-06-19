@@ -86,6 +86,7 @@ init_dvar(dvar) {
 
 set_dvars() {
   init_dvar("timers");
+  init_dvar("sph");
   init_dvar("velocity");
   init_dvar("box_hits");
 }
@@ -100,6 +101,15 @@ hud_alpha_controller() {
       } else if (getDvarInt("timers") == 1) {
         level.timer.alpha = 1;
         level.round_timer.alpha = 1;
+      }
+    }
+
+    // SPH
+    if (isDefined(level.sph)) {
+      if (!getDvarInt("sph")) {
+        level.sph.alpha = 0;
+      } else if (getDvarInt("sph") == 1) {
+        level.sph.alpha = 1;
       }
     }
 
@@ -222,35 +232,31 @@ display_sph(sph) {
 }
 
 sph_hud() {
-  if (!level.config["sph"]) {
-    return;
-  }
-
   while (level.round_number < level.config["sph_round_start"]) {
     wait .1;
   }
 
   level waittill("start_of_round");
 
-  sph = createServerFontString("big", 1.4);
-  sph setPoint("TOPLEFT", "TOPLEFT", -46, 28);
+  level.sph = createServerFontString("big", 1.4);
+  level.sph setPoint("TOPLEFT", "TOPLEFT", -46, 28);
 
-  sph.hidewheninmenu = 1;
-  sph.label = &"SPH: ";
-  sph.alpha = 0;
+  level.sph.hidewheninmenu = 1;
+  level.sph.label = &"SPH: ";
+  level.sph.alpha = 0;
 
   while (1) {
     hordes = get_zombies_left() / 24;
 
     level waittill("end_of_round");
 
-    sph.alpha = 1;
+    level.sph.alpha = 1;
 
     second_per_horde = int((level.round_end / hordes) * 100) / 100;
 
-    sph display_sph(second_per_horde);
+    level.sph display_sph(second_per_horde);
 
-    sph.alpha = 0;
+    level.sph.alpha = 0;
   }
 }
 

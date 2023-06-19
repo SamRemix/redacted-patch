@@ -30,6 +30,7 @@ Download [zm_patch.gsc](https://github.com/SamRemix/scripts/blob/master/zm_patch
 | Element             | Dvar               | Default  |
 | :------------------ | :----------------- | :------- |
 | Timer + Round timer | `timers` + `0 1`   | Enabled  |
+| SPH                 | `sph` + `0 1`      | Enabled  |
 | Velocity meter      | `velocity` + `0 1` | Disabled |
 | Box hits tracker    | `box_hits` + `0 1` | Disabled |
 
