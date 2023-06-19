@@ -41,7 +41,7 @@ onplayerspawned() {
 
   thread set_dvars();
 
-	level thread hud_alpha_controller();
+  level thread hud_alpha_controller();
 
   for(;;) {
     self waittill("spawned_player");
