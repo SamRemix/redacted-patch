@@ -9,6 +9,7 @@
 
 - Real time SPH
 - Round time splits
+- Split rayguns average into raygun/mk2 average
 - Buildables counter
 - Drop cycle tracker
 

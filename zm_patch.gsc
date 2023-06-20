@@ -201,13 +201,13 @@ keep_displaying_round_time(time) {
 }
 
 round_timer_hud() {
-  level waittill("start_of_round");
-
   level.round_timer = createServerFontString("big", 1.6);
   level.round_timer setPoint("TOPLEFT", "TOPLEFT", -46, -14);
 
   level.round_timer.color = (1, .3, .3);
   level.round_timer.alpha = 0;
+
+  level waittill("start_of_round");
 
   while (1) {
     round_start = int(getTime() / 1000);
@@ -242,7 +242,6 @@ sph_hud() {
   level.sph setPoint("TOPLEFT", "TOPLEFT", -46, 28);
 
   level.sph.hidewheninmenu = 1;
-  level.sph.label = &"SPH: ";
   level.sph.alpha = 0;
 
   while (1) {
@@ -250,6 +249,7 @@ sph_hud() {
 
     level waittill("end_of_round");
 
+    level.sph.label = &"SPH: ";
     level.sph.alpha = 1;
 
     second_per_horde = int((level.round_end / hordes) * 100) / 100;
