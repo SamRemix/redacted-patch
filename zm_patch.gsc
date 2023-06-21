@@ -57,7 +57,10 @@ onplayerspawned() {
     self thread rayguns_average_hud();
 
     // PERSISTENT UPGRADES
-    self thread fill_bank();
+    if (is_victis_map()) {
+      self thread fill_bank();
+      self thread set_fridge_weapon();
+    }
 
     if (is_victis_map() || is_mob_of_the_dead()) {
       level.round_start_custom_func = ::fix_zombies_health;
@@ -67,6 +70,22 @@ onplayerspawned() {
     self set_movement();
 
     wait .05;
+  }
+}
+
+fix_zombies_health() {
+  round_155 = 1044606723;
+
+  if (level.zombie_health <= round_155) {
+    return;
+  }
+
+  level.zombie_health = round_155;
+
+  foreach (zombie in get_round_enemy_array()) {
+    if (zombie.health > round_155) {
+      zombie.heath = round_155;
+    }
   }
 }
 
@@ -494,24 +513,22 @@ box_weapon_check(weapon) {
 */
 
 fill_bank() {
-  if (is_victis_map()) {
-    self.account_value = level.bank_account_max;
-  }
+  self.account_value = level.bank_account_max;
 }
 
-fix_zombies_health() {
-  round_155 = 1044606723;
+set_weapon_stats(weapon) {
+  self setdstat("PlayerStatsByMap", "zm_transit", "weaponLocker", "name", weapon);
+  self setdstat("PlayerStatsByMap", "zm_transit", "weaponLocker", "stock", weaponMaxAmmo(weapon));
+  self setdstat("PlayerStatsByMap", "zm_transit", "weaponLocker", "clip", weaponClipSize(weapon));
+}
 
-  if (level.zombie_health <= round_155) {
-    return;
-  }
+set_fridge_weapon() {
+  self clear_stored_weapondata();
 
-  level.zombie_health = round_155;
-
-  foreach (zombie in get_round_enemy_array()) {
-    if (zombie.health > round_155) {
-      zombie.heath = round_155;
-    }
+  if(level.script == "zm_highrise") {
+    set_weapon_stats("an94_upgraded_zm+mms");
+  } else if (level.script == "zm_transit" || level.script == "zm_buried") {
+    self set_weapon_stats("m32_upgraded_zm");
   }
 }
 

@@ -2,9 +2,6 @@
 
 ## **General**
 
-- Set fridge weapon
-  - War machine *(Tranzit & Buried)*
-  - AN-94 *(Die Rise)*
 - Give perma perks *(Victis maps)*
 
 ## **Hud**

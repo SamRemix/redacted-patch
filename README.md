@@ -13,6 +13,7 @@ Download [zm_patch.gsc](https://github.com/SamRemix/scripts/blob/master/zm_patch
 - Fixed strafe & backwards speed
 - Fixed trap & Jetgun *(enabled on Victis maps & Mob of the Dead)*
 - Full bank *(enabled on Victis maps)*
+- [Fridge weapon](#fridge-weapon)
 - [Start box location](#start-box-location)
 - [First box weapons](#first-box-weapons) *(disabled after round 10)*
 
@@ -53,6 +54,14 @@ onplayerspawned() {
 ```
 
 It will set the strafe speed to 80% and the backwards speed to 70%.
+
+### **Fridge weapon**
+
+| Map      | Weapon      |
+| :------- | :---------- |
+| Tranzit  | War machine |
+| Die Rise | AN-94       |
+| Buried   | War machine |
 
 ### **Start box location**
 
