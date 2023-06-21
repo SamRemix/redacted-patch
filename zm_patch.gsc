@@ -21,6 +21,9 @@ onplayerspawned() {
 
   level.config = array();
 
+  // MOVEMENT
+  level.config["firstroom_movement"] = false;
+
   // HUD
   level.config["timers"] = true;
   level.config["sph"] = true;
@@ -32,8 +35,8 @@ onplayerspawned() {
   level.config["first_box"] = true;
   level.config["first_box_break_round"] = 10;
 
-  // MOVEMENT
-  level.config["firstroom_movement"] = false;
+  // FRIDGE WEAPON
+  level.config["fridge_weapon"] = "";
 
   // DVARS & MOVEMENT
   thread set_dvars();
@@ -531,11 +534,41 @@ set_weapon_stats(weapon) {
 }
 
 set_fridge_weapon() {
-  self clear_stored_weapondata();
+	self clear_stored_weapondata();
 
-  if(level.script == "zm_highrise") {
-    set_weapon_stats("an94_upgraded_zm+mms");
-  } else if (level.script == "zm_transit" || level.script == "zm_buried") {
-    set_weapon_stats("m32_upgraded_zm");
+  if (level.config["fridge_weapon"] != "") {
+    switch (level.config["fridge_weapon"]) {
+      case "an94":
+        set_weapon_stats("an94_upgraded_zm+mms");
+        break;
+
+      case "m32":
+        set_weapon_stats("m32_upgraded_zm");
+        break;
+
+      case "m16":
+        set_weapon_stats("m16_gl_upgraded_zm");
+        break;
+        
+      case "mp5":
+        set_weapon_stats("mp5k_zm");
+        break;
+        
+      default:
+        break;
+    }
+
+    return;
+  }
+
+  switch (level.script) {
+    case "zm_transit":
+    case "zm_buried":
+      set_weapon_stats("m32_upgraded_zm");
+      break;
+
+    case "zm_highrise":
+      set_weapon_stats("an94_upgraded_zm+mms");
+      break;
   }
 }

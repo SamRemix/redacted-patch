@@ -65,6 +65,27 @@ It will set the strafe speed to 80% and the backwards speed to 70%.
 | Die Rise | AN-94       |
 | Buried   | War machine |
 
+You can change the fridge weapon by setting a value like this:
+
+```cpp
+onplayerspawned() {
+  ...
+
+  level.config["fridge_weapon"] = "m16";
+
+  ...
+}
+```
+
+possible value:
+
+- `an94`
+- `m32`
+- `m16` - *especially for **Tranzit no power***
+- `mp5` - *especially for **Buried saloon strat** (better mobility)*
+
+It will give you an upgraded version of the weapon (except for mp5 because it's only used for mobility).
+
 ### **Start box location**
 
 | Map             | Box location |

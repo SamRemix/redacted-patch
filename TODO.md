@@ -16,6 +16,10 @@
 
 ## **Fix**
 
+### Fridge weapon
+
+- The M16 has no ammo in the M203
+
 ### Box hits tracker
 
 - Is diplay on Nuketown but doesn't work
