@@ -35,13 +35,13 @@ onplayerspawned() {
   // MOVEMENT
   level.config["firstroom_movement"] = false;
 
+  // DVARS & MOVEMENT
+  thread set_dvars();
+  level thread hud_alpha_controller();
+
   // FIRST BOX
   level thread start_box_location();
   level thread first_box_weapons();
-
-  thread set_dvars();
-
-  level thread hud_alpha_controller();
 
   for(;;) {
     self waittill("spawned_player");
@@ -65,9 +65,6 @@ onplayerspawned() {
     if (is_victis_map() || is_mob_of_the_dead()) {
       level.round_start_custom_func = ::fix_zombies_health;
     }
-
-    // MOVEMENT
-    self set_movement();
 
     wait .05;
   }
@@ -104,6 +101,17 @@ init_dvar(dvar) {
 }
 
 set_dvars() {
+  if (!level.config["firstroom_movement"]) {
+    setdvar("player_backSpeedScale", .9);
+    setdvar("player_strafeSpeedScale", 1);
+  } else {
+    setdvar("player_backSpeedScale", .7);
+    setdvar("player_strafeSpeedScale", .8);
+  }
+
+  setdvar("player_sprintStrafeSpeedScale", 1);
+  setdvar("g_speed", 190);
+
   init_dvar("timers");
   init_dvar("sph");
   init_dvar("velocity");
@@ -528,25 +536,6 @@ set_fridge_weapon() {
   if(level.script == "zm_highrise") {
     set_weapon_stats("an94_upgraded_zm+mms");
   } else if (level.script == "zm_transit" || level.script == "zm_buried") {
-    self set_weapon_stats("m32_upgraded_zm");
+    set_weapon_stats("m32_upgraded_zm");
   }
-}
-
-/*
-
-  MOVEMENT
-
-*/
-
-set_movement() {
-  if (!level.config["firstroom_movement"]) {
-    setdvar("player_backSpeedScale", .9);
-    setdvar("player_strafeSpeedScale", 1);
-  } else {
-    setdvar("player_backSpeedScale", .7);
-    setdvar("player_strafeSpeedScale", .8);
-  }
-
-  setdvar("player_sprintStrafeSpeedScale", 1);
-  setdvar("g_speed", 190);
 }

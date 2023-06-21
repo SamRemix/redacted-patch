@@ -8,11 +8,13 @@ Download [zm_patch.gsc](https://github.com/SamRemix/scripts/blob/master/zm_patch
 
 ## **Features**
 
+For optimization and logic, some features are disabled on maps that don't need them. For example, "Full bank" and "Fridge weapon" are enabled on Victis maps only.
+
 ### General
 
 - Fixed strafe & backwards speed
-- Fixed trap & Jetgun *(enabled on Victis maps & Mob of the Dead)*
-- Full bank *(enabled on Victis maps)*
+- Fixed trap & Jetgun
+- Full bank
 - [Fridge weapon](#fridge-weapon)
 - [Start box location](#start-box-location)
 - [First box weapons](#first-box-weapons) *(disabled after round 10)*
@@ -39,7 +41,7 @@ Download [zm_patch.gsc](https://github.com/SamRemix/scripts/blob/master/zm_patch
 
 ### **Categories**
 
-This patch is supposed to be used during games of **high round**, **no power** & **speedruns**.
+This patch is supposed to be used during games of **high round**, **no power** and **speedruns**.
 
 For playing **first room** games, you have to edit file like this:
 
