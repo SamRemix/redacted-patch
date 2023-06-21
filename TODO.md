@@ -3,22 +3,26 @@
 ## **General**
 
 - Set fridge weapon
-- Give perma perks
+  - War machine *(Tranzit & Buried)*
+  - AN-94 *(Die Rise)*
+- Give perma perks *(Victis maps)*
 
 ## **Hud**
 
 - Real time SPH
-- Round time splits
-- Split rayguns average into raygun/mk2 average
+- Round time splits *(30, 50, 70, 100, +10...)*
 - Buildables counter
+  - Trample steam *(Die Rise & Buried)*
+  - Turbine *(Buried)*
+  - Subsurface resonator *(Buried)*
 - Drop cycle tracker
 
 ## **Fix**
 
 ### Box hits tracker
 
-- is diplay on Nuketown but doesn't work
+- Is diplay on Nuketown but doesn't work
 
 ### Rayguns average
 
-- the raygun is counted when the box has finished spinning and not when it's taken
+- The raygun is counted when the box has finished spinning and not when it's taken
