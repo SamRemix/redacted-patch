@@ -533,6 +533,13 @@ set_weapon_stats(weapon) {
   self setdstat("PlayerStatsByMap", "zm_transit", "weaponLocker", "name", weapon);
   self setdstat("PlayerStatsByMap", "zm_transit", "weaponLocker", "stock", weaponMaxAmmo(weapon));
   self setdstat("PlayerStatsByMap", "zm_transit", "weaponLocker", "clip", weaponClipSize(weapon));
+
+  if (weaponAltWeaponName(weapon) != "none") {
+    alt_weapon = weaponAltWeaponName(weapon);
+
+    self setdstat("PlayerStatsByMap", "zm_transit", "weaponLocker", "alt_clip", weaponClipSize(alt_weapon));
+    self setdstat("PlayerStatsByMap", "zm_transit", "weaponLocker", "alt_stock", weaponMaxAmmo(alt_weapon));
+  }
 }
 
 set_fridge_weapon() {
