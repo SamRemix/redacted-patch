@@ -286,7 +286,9 @@ sph_hud() {
 
     level.sph display_sph(second_per_horde);
 
-    level.sph.alpha = 0;
+    // remove SPH at the start of the round
+    level.sph.label = &"";
+    level.sph setText("");
   }
 }
 
