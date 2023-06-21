@@ -20,6 +20,10 @@
 
 - The M16 has no ammo in the M203
 
+### SPH
+
+- SPH is still displayed after start of round
+
 ### Box hits tracker
 
 - Is diplay on Nuketown but doesn't work
