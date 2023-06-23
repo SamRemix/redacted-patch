@@ -2,6 +2,8 @@
 
 ## **General**
 
+- Override fridge weapon with a dvar
+
 ## **Hud**
 
 - Real time SPH
