@@ -61,6 +61,7 @@ onplayerspawned() {
 
     // PERSISTENT UPGRADES
     if (is_victis_map()) {
+      self thread set_perma_perks();
       self thread fill_bank();
       self thread set_fridge_weapon();
     }
@@ -524,6 +525,17 @@ box_weapon_check(weapon) {
   PERSISTENT UPGRADES
 
 */
+
+set_perma_perks() {
+  perks = array("revive", "multikill_headshots", "perk_lose", "jugg", "flopper", "cash_back", "sniper", "insta_kill", "pistol_points", "double_points");
+
+  foreach(perk in perks) {
+    perk_name = level.pers_upgrades[perk].stat_names[0];
+    perk_value = level.pers_upgrades[perk].stat_desired_values[0];
+
+    set_client_stat(perk_name, perk_value);
+  }
+}
 
 fill_bank() {
   self.account_value = level.bank_account_max;

@@ -14,6 +14,7 @@ For optimization and logic, some features are disabled on maps that don't need t
 
 - Fixed strafe & backwards speed
 - Fixed trap & Jetgun
+- [Perma perks](#perma-perks)
 - Full bank
 - [Fridge weapon](#fridge-weapon)
 - [Start box location](#start-box-location)
@@ -56,6 +57,21 @@ onplayerspawned() {
 ```
 
 It will set the strafe speed to 80% and the backwards speed to 70%.
+
+### **Perma perks**
+
+List of perma perks:
+
+- Revive
+- Better headshots
+- Tombstone
+- Mini-jug
+- Flopper
+- Cash back
+- Sniper points
+- Insta kill
+- Pistol points
+- Double Points
 
 ### **Fridge weapon**
 

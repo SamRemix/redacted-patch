@@ -2,8 +2,6 @@
 
 ## **General**
 
-- Give perma perks *(Victis maps)*
-
 ## **Hud**
 
 - Real time SPH
